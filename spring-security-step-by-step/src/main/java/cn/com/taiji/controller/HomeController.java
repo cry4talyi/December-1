@@ -41,60 +41,6 @@ public class HomeController {
         return "/login";
     }
 
-    @Autowired
-    private ChatTeamRepository chatTeamRepository;
-
-    @RequestMapping("ct/{name}")
-    public String blog(@PathVariable("name")     String  name,Model model){
-        System.out.println(name);
-        ChatTeam chatTeam = chatTeamRepository.findByCname( name);
-        model.addAttribute("name",name);
-       model.addAttribute("blogs",chatTeam.getBlogs());
-        return "repo";
-    }
-
-
-    @Autowired
-    BlogRepository blogRepository;
-
-    @RequestMapping("ct/{name}/{bid}")
-    public String blog(@PathVariable("name") String name, @PathVariable("bid") String bid, Model
-            model) {
-        model.addAttribute("blog",blogRepository.findById(Long.parseLong(bid)).get());
-
-        return "bid";
-    }
-
-
-
-    @RequestMapping("ct/{name}/add")
-    public String toadd(@PathVariable(name = "name") String name,Model model){
-        model.addAttribute("name",name);
-        System.out.println(name);
-        return "add";
-    }
-
-    /**
-     *
-     */
-
-
-    @GetMapping("/ct/chatteam/commit")
-    public String add(String chatteam,String btittle,String bcontext){
-        Blog blog = new Blog();
-        blog.setBtittle(btittle);
-        blog.setBcontext(bcontext);
-        blog.setIsexits(1);
-         ChatTeam byCname = chatTeamRepository.findByCname(chatteam);
-        byCname.getBlogs().add(blog);
-        blogRepository.save(blog);
-        chatTeamRepository.saveAndFlush(byCname);
-        String url = "redirect:"+"/ct/"+chatteam;
-        return url;
-    }
-
-
-
 
 
 }
