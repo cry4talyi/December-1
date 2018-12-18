@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <title>Title</title>
+</head>
+<body>
+
+    <form action="/ct/chatteam/commit" th:method="get">
+            <input name="chatteam" th:value="${name}" hidden><br/>
+            <input name="btittle" ><br/>
+            <textarea rows="10" cols="40" name="bcontext"></textarea><br/>
+            <input type="submit">
+    </form>
+
+</body>
+</html>
