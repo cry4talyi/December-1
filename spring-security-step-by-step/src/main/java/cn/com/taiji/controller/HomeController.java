@@ -7,8 +7,9 @@ import cn.com.taiji.repository.ChatTeamRepository;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -37,19 +38,45 @@ public class HomeController {
     @GetMapping({"", "/", "/index"})
     public String index(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if ("anonymousUser".equals(principal)) {
-            model.addAttribute("name", "anonymous");
-        } else {
-            User user = (User) principal;
-            model.addAttribute("name", user.getUsername());
+        if("anonymousUser".equals(principal)) {
+            model.addAttribute("name","anonymous");
+        }else {
+            User user = (User)principal;
+            model.addAttribute("name",user.getUsername());
         }
         return "/index";
     }
-    
+
     @GetMapping("/login")
     public String login() {
         return "/login";
     }
+
+    /**
+     * @author 郭兆龙
+     * 跳转到讨论组页面
+     * @param model
+     * @return
+     */
+    @GetMapping("/ct")
+    public String chatTeam(Model model){
+        model.addAttribute("chat",service.chat());
+        return "ct";
+    }
+
+    /**
+     * @Author 郭兆龙
+     * 跳转到博客
+     */
+    @GetMapping("/blog")
+    public String blog(Model model){
+        model.addAttribute("post",service.blog());
+        return "blog";
+    }
+
+
+
+
     
     
     /*
@@ -59,7 +86,7 @@ public class HomeController {
      * @Param
      * @return
      **/
-    //
+    //跳转到讨论组详情页面
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);

@@ -1,8 +1,14 @@
 package cn.com.taiji.service.impl;
 
 import cn.com.taiji.domain.Blog;
+import cn.com.taiji.domain.ChatTeam;
+import cn.com.taiji.domain.Post;
+import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -22,6 +28,24 @@ public class Service {
     private CommentReposity commentReposity;
     @Autowired
     private PostRepository postRepository;
+
+    /**
+     * @Author 郭兆龙
+     * 用于讨论组跳转
+     * @return
+     */
+    public List<ChatTeam> chat(){
+        return this.chatTeamRepository.findAll();
+    }
+
+    /**
+     * @Author 郭兆龙
+     * 跳转到博客
+     */
+    public List<Post> blog(){
+        return this.postRepository.findAll();
+    }
+
 
 
     /*
