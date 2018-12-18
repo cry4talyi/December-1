@@ -44,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 //注销行为任意访问
                 .and().logout().permitAll()
-                .and().addFilterBefore(customFilterSecurityInterceptor, FilterSecurityInterceptor.class);
+                .and().addFilterBefore(customFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+                .csrf().disable();
     }
 
 

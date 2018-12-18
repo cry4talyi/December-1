@@ -50,6 +50,7 @@ public class HomeController {
 
     /**
      * @author 郭兆龙
+     * @Date 2018/12/18
      * 跳转到讨论组页面
      * @param model
      * @return
@@ -62,12 +63,29 @@ public class HomeController {
 
     /**
      * @Author 郭兆龙
+     * @Date 2018/12/18
      * 跳转到博客
      */
     @GetMapping("/blog")
     public String blog(Model model){
         model.addAttribute("post",service.blog());
         return "blog";
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于新增讨论组
+     */
+    @GetMapping("/toAddChat")
+    public String addChatTeam(){
+        return "addChat";
+    }
+
+    @PostMapping("/addChat")
+    public String addChat(String name){
+        service.addChat(name);
+        return "redirect:/ct";
     }
 
 
