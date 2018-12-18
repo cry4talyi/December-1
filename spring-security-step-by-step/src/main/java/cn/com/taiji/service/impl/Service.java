@@ -3,6 +3,7 @@ package cn.com.taiji.service.impl;
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.domain.ChatTeam;
 import cn.com.taiji.domain.Post;
+import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class Service {
 
+    
 
 
     @Autowired
@@ -63,4 +65,17 @@ public class Service {
 
 
 
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 11:28 2018/12/18
+     * @Param
+     * @return
+     **/
+    
+    public List<Blog> chatFindBname(String name){
+        System.out.println(chatTeamRepository.findByCname(name).getBlogs());
+        return chatTeamRepository.findByCname(name).getBlogs();
+    }
 }

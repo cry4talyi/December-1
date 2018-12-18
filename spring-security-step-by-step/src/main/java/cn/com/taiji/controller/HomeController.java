@@ -4,6 +4,9 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.domain.ChatTeam;
 import cn.com.taiji.repository.BlogRepository;
 import cn.com.taiji.repository.ChatTeamRepository;
+import cn.com.taiji.service.impl.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,6 @@ import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +29,13 @@ import java.util.Optional;
  */
 @Controller
 public class HomeController {
+    
     @Autowired
-    Service service;
-
-    @GetMapping({"","/","/index"})
+    private Service service;
+    
+    private Logger logger = LoggerFactory.getLogger(HomeController.class);
+    
+    @GetMapping({"", "/", "/index"})
     public String index(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if("anonymousUser".equals(principal)) {
@@ -91,4 +95,20 @@ public class HomeController {
 
 
 
+    
+    
+    /*
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 11:19 2018/12/18
+     * @Param
+     * @return
+     **/
+    //跳转到讨论组详情页面
+    @RequestMapping("ct/{name}")
+    public String blog(@PathVariable("name") String name, Model model) {
+        logger.info("姓名为{}",name);
+        model.addAttribute("blogs", service.chatFindBname(name));
+        return "repo";
+    }
 }
