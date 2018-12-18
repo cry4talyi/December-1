@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div> <h1>个人主页</h1></div>
+<!--/*@thymesVar id="username" type="aj"*/-->
+<label>姓名：</label><p th:text="${username}"></p>
+
+
+<div style="width: 100%;border:1px solid #1B6D85;">
+    <div style="float:left;width: 10%;border:1px solid #1B6D85;"></div>
+    <div style="float:left;width: 20%;border:1px solid #1B6D85;"><table>
+        <thead>
+        <th>参加的讨论组：</th>
+        </thead>
+        <tbody>
+        <tr th:each="cnames:${cnames}" >
+            <td th:text="${cnames}"></td>
+        </tr>
+        </tbody>
+    </table></div>
+    <div style="float:left;width: 10%;border:1px solid #1B6D85;"></div>
+    <div style="float:left;width: 20%;border:1px solid #1B6D85;"><table>
+        <thead>
+        <th>个人博客列表：</th>
+        </thead>
+        <tbody>
+        <tr th:each="bnames:${bnames}">
+            <td  th:text="${bnames}"></td>
+            <td><a th:href="@{/helloBlog(name=${bnames})}">查看</a></td>
+            <td><a th:href="@{/byeBlog(name=${bnames})}">删除</a></td>
+        </tr>
+        </tbody>
+    </table></div>
+    <div style="float:left;width: 10%;border:1px solid #1B6D85;"></div>
+    <div style="float:left;width: 20%;border:1px solid #1B6D85;"><table>
+        <thead>
+        <th>评论的博客列表：</th>
+        </thead>
+        <tbody>
+        <tr th:each="blogcom:${blogcom}">
+            <td  th:text="${blogcom}"></td>
+            <td><a th:href="@{/helloBlog(name=${blogcom})}">查看</a></td>
+            <td><a th:href="@{/byeBlog(name=${blogcom})}">删除</a></td>
+        </tr>
+        </tbody>
+    </table></div>
+</div>
+</body>
+</html>
