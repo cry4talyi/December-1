@@ -4,7 +4,11 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.domain.ChatTeam;
 import cn.com.taiji.repository.BlogRepository;
 import cn.com.taiji.repository.ChatTeamRepository;
+import cn.com.taiji.service.impl.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -24,77 +28,42 @@ import java.util.Optional;
  */
 @Controller
 public class HomeController {
-    @GetMapping({"","/","/index"})
+    
+    @Autowired
+    private Service service;
+    
+    private Logger logger = LoggerFactory.getLogger(HomeController.class);
+    
+    @GetMapping({"", "/", "/index"})
     public String index(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if("anonymousUser".equals(principal)) {
-            model.addAttribute("name","anonymous");
-        }else {
-            User user = (User)principal;
-            model.addAttribute("name",user.getUsername());
+        if ("anonymousUser".equals(principal)) {
+            model.addAttribute("name", "anonymous");
+        } else {
+            User user = (User) principal;
+            model.addAttribute("name", user.getUsername());
         }
         return "/index";
     }
-
+    
     @GetMapping("/login")
     public String login() {
         return "/login";
     }
-
-    @Autowired
-    private ChatTeamRepository chatTeamRepository;
-
+    
+    
+    /*
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 11:19 2018/12/18
+     * @Param
+     * @return
+     **/
+    //
     @RequestMapping("ct/{name}")
-    public String blog(@PathVariable("name")     String  name,Model model){
-        System.out.println(name);
-        ChatTeam chatTeam = chatTeamRepository.findByCname( name);
-        model.addAttribute("name",name);
-       model.addAttribute("blogs",chatTeam.getBlogs());
+    public String blog(@PathVariable("name") String name, Model model) {
+        logger.info("姓名为{}",name);
+        model.addAttribute("blogs", service.chatFindBname(name));
         return "repo";
     }
-
-
-    @Autowired
-    BlogRepository blogRepository;
-
-    @RequestMapping("ct/{name}/{bid}")
-    public String blog(@PathVariable("name") String name, @PathVariable("bid") String bid, Model
-            model) {
-        model.addAttribute("blog",blogRepository.findById(Long.parseLong(bid)).get());
-
-        return "bid";
-    }
-
-
-
-    @RequestMapping("ct/{name}/add")
-    public String toadd(@PathVariable(name = "name") String name,Model model){
-        model.addAttribute("name",name);
-        System.out.println(name);
-        return "add";
-    }
-
-    /**
-     *
-     */
-
-
-    @GetMapping("/ct/chatteam/commit")
-    public String add(String chatteam,String btittle,String bcontext){
-        Blog blog = new Blog();
-        blog.setBtittle(btittle);
-        blog.setBcontext(bcontext);
-        blog.setIsexits(1);
-         ChatTeam byCname = chatTeamRepository.findByCname(chatteam);
-        byCname.getBlogs().add(blog);
-        blogRepository.save(blog);
-        chatTeamRepository.saveAndFlush(byCname);
-        String url = "redirect:"+"/ct/"+chatteam;
-        return url;
-    }
-
-
-
-
-
 }
