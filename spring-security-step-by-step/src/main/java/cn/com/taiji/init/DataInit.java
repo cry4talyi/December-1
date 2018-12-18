@@ -54,15 +54,23 @@ public class DataInit {
 
 //********************************************
 
-
+        /*
+        *
+         * @Author 胡玉浩
+         * @Description //TODO
+         * @Date 12:45 2018/12/18
+         * @Param []
+         * @return void
+         **/
+        //添加博客里面的数据
         Blog blog1 = new Blog();
-        blog1.setBcontext("aaaaaaa");
-        blog1.setBtittle("the first");
+        blog1.setBcontext("此版本后台使用springboot-1.5.18版本（V1版本的springboot将在19年官方停止维护，V2版本的前后台分离框架稍候推出。），前台使用VUE框架，实现前后台分离，权限验证使用JWT进行验证。");
+        blog1.setBtittle("TDF V1.5.18，第一个前后台分离版本发布了，快来试用吧");
         blog1.setIsexist(1);
 
         Blog blog2 = new Blog();
-        blog2.setBcontext("bbbbbb");
-        blog2.setBtittle("the second");
+        blog2.setBcontext("—spring boot 版本升级至2.1.0.RELEASE，替换过时方法");
+        blog2.setBtittle("TDF V2.1.0发布了，快来看看有什么新功能吧");
         blog2.setIsexist(1);
 
 
@@ -72,6 +80,8 @@ public class DataInit {
         ChatTeam chatTeam1 = new ChatTeam();
         chatTeam1.setCname("diyizu");
         chatTeam1.setBlogs(list1);
+//        System.out.println("111111111111111111111111111111111111111111111");
+//        System.out.println(list1);
 
 
         List chatlist = new ArrayList();
@@ -117,7 +127,7 @@ public class DataInit {
 
 
         blog1.setChatTeam(chatTeam1);
-
+        blog2.setChatTeam(chatTeam1);
 
         Comment c1 = new Comment();
         c1.setBlog(blog1);

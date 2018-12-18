@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by iandtop on 2018/12/11.
  */
-@Controller
+@RestController
 public class HelloController {
 
 

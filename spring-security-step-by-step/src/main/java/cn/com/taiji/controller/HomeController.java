@@ -4,6 +4,9 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.domain.ChatTeam;
 import cn.com.taiji.repository.BlogRepository;
 import cn.com.taiji.repository.ChatTeamRepository;
+import cn.com.taiji.service.impl.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +31,13 @@ import java.util.Optional;
  */
 @Controller
 public class HomeController {
-    @Autowired
-    Service service;
 
-    @GetMapping({"","/","/index"})
+    @Autowired
+    private Service service;
+
+    private Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+    @GetMapping({"", "/", "/index"})
     public String index(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if("anonymousUser".equals(principal)) {
@@ -70,4 +76,23 @@ public class HomeController {
         return "blog";
     }
 
+
+
+
+
+
+    /*
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 11:19 2018/12/18
+     * @Param
+     * @return
+     **/
+    //跳转到讨论组详情页面
+    @RequestMapping("ct/{name}")
+    public String blog(@PathVariable("name") String name, Model model) {
+        logger.info("姓名为{}",name);
+        model.addAttribute("blogs", service.chatFindBname(name));
+        return "repo";
+    }
 }

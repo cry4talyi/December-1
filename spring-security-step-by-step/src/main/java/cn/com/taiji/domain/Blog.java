@@ -79,8 +79,8 @@ public class Blog {
         return isexist;
     }
 
-    public void setIsexist(int isexits) {
-        this.isexist = isexits;
+    public void setIsexist(int isexist) {
+        this.isexist = isexist;
     }
 
     public UserInfo getUserInfo() {
