@@ -4,6 +4,7 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.domain.ChatTeam;
 import cn.com.taiji.repository.BlogRepository;
 import cn.com.taiji.repository.ChatTeamRepository;
+import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,9 @@ import java.util.Optional;
  */
 @Controller
 public class HomeController {
+    @Autowired
+    private Service service;
+
     @GetMapping({"","/","/index"})
     public String index(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -42,5 +46,32 @@ public class HomeController {
     }
 
 
+    /*
+    * 作者：李伟函
+    *
+    * */
+    @RequestMapping("ct/{name}/{bid}")
+    public String blog(@PathVariable("name") String name, @PathVariable("bid") String bid, Model
+            model) {
+        model.addAttribute("blog",service.displayBlog(bid));
+
+        return "blog";
+    }
+
+    /*
+    * 作者：李伟函
+    * */
+    @RequestMapping("/addReply/{username}/{bid}")
+    public  String reply(@PathVariable("username") String username, @PathVariable("bid") String bid,String ttt,Model model){
+        System.out.println(ttt);
+        System.out.println(username);
+        System.out.println(bid);
+        service.saveReply(ttt,username,bid);
+        Blog blog=service.displayBlog(bid);
+        String name =blog.getChatTeam().getCid().toString();
+
+        String url = "redirect:"+"/ct/"+name+"/"+bid;
+       return url;
+    }
 
 }

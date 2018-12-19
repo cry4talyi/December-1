@@ -1,14 +1,42 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>bb</title>
 </head>
 <body>
-<label th:text="${bcontext.btittle}"></label>
-<label th:text="${bcontext.bcontext}"></label>
-<label th:text="${bcontext.isexits}"></label>
-<input />
+
+<table>
+    <tr>
+        <td>标题</td>
+        <td>内容</td>
+    </tr>
+    <tr th:each="bbb: ${blog}">
+        <td th:text="${blog.btittle}"></td>
+        <td th:text="${blog.bcontext}"></td>
+        <td th:text="${blog.userInfo.username}"></td>
+    </tr>
+
+
+    <tr th:each="ccc: ${blog.comments}">
+        <td th:text="${ccc.statement}"></td>
+        <td th:text="${ccc.userInfo.username}"></td>
+    </tr>
+
+
+
+
+</table>
+<br/>
+<form th:action="@{'/addReply/'+${blog.userInfo.username}+'/'+${blog.bid}}" method="post">
+<!--<form th:action="@{/addReply/{bid}(bid=${blog.getBid()})}"></form>-->
+<!--<form action="/add/" method="post" enctype="multipart/form-data">-->
+
+    <textarea name="ttt" rows="10" cols="30"></textarea>
+    <br/>
+    <input type="submit" value="提交" />
+</form>
+
 </body>
 </html>
