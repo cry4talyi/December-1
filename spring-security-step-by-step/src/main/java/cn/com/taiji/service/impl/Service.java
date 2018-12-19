@@ -1,8 +1,6 @@
 package cn.com.taiji.service.impl;
 
-import cn.com.taiji.domain.Blog;
-import cn.com.taiji.domain.ChatTeam;
-import cn.com.taiji.domain.Post;
+import cn.com.taiji.domain.*;
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -37,7 +37,18 @@ public class Service {
      * @return
      */
     public List<ChatTeam> chat(){
-        return this.chatTeamRepository.findAll();
+        List<ChatTeam>list=new ArrayList<ChatTeam>();
+        List<ChatTeam>list2=new ArrayList<ChatTeam>();
+        list.addAll(this.chatTeamRepository.findAll());
+
+        for (int i=0;i<list.size();i++){
+            if (list.get(i).getIsexist()==1){
+                list2.add(list.get(i));
+            }
+
+        }
+
+        return list2;
     }
 
     /**
@@ -56,7 +67,7 @@ public class Service {
      */
     public void addChat(String cname){
         ChatTeam chatTeam = new ChatTeam();
-        chatTeam.setIsexist(0);
+        chatTeam.setIsexist(1);
         chatTeam.setCname(cname);
         chatTeamRepository.save(chatTeam);
         chatTeamRepository.saveAndFlush(chatTeam);
@@ -77,5 +88,21 @@ public class Service {
     public List<Blog> chatFindBname(String name){
         System.out.println(chatTeamRepository.findByCname(name).getBlogs());
         return chatTeamRepository.findByCname(name).getBlogs();
+    }
+
+
+    public void saveBlog(Blog blog,String chatteam,String username){
+
+        UserInfo byUsername = userInfoRepository.findByUsername(username);
+        ChatTeam byCname = chatTeamRepository.findByCname(chatteam);
+        System.out.println(byCname.getCname());
+        System.out.println(byCname.getCname());
+        byUsername.getBlogs().add(blog);
+        byCname.getBlogs().add(blog);
+        blog.setChatTeam(byCname);
+        blog.setUserInfo(byUsername);
+        userInfoRepository.saveAndFlush(byUsername);
+        chatTeamRepository.saveAndFlush(byCname);
+        blogRepository.save(blog);
     }
 }

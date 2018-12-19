@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!--郭兆龙-->
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
@@ -13,8 +15,6 @@
         <div>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/index">首页</a></li>
-                <li class="active"><a th:href="@{/blog}">博客</a></li>
-                <li><a href="https://www.baidu.com/">讨论组</a></li>
             </ul>
         </div>
     </div>
@@ -23,16 +23,11 @@
     <div id="content" class="col-md-8 col-md-offset-2">
         <table id="table" class="table table-bordered">
             <tr>
-                <th>讨论组
-                    <ul class="nav navbar-right">
-                        <li class="active"><a th:href="@{/toAddChat}">新增讨论组</a></li>
-                    </ul>
-                </th>
+                <th>博客</th>
             </tr>
-            <tr th:each="prod:${chat}">
-                <td ><a th:href="@{'/ct/'+${prod.cname}}" th:text="${prod.cname}"></a></td>
+            <tr th:each="prod:${post}">
+                <td ><a th:href="@{'/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a></td>
             </tr>
-
         </table>
     </div>
 </div>

@@ -1,40 +1,33 @@
 package cn.com.taiji.controller;
 
 import cn.com.taiji.domain.Blog;
-import cn.com.taiji.domain.ChatTeam;
-import cn.com.taiji.repository.BlogRepository;
-import cn.com.taiji.repository.ChatTeamRepository;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * Created by iandtop on 2018/12/11.
  */
 @Controller
 public class HomeController {
-    
+
     @Autowired
     private Service service;
-    
+
     private Logger logger = LoggerFactory.getLogger(HomeController.class);
-    
+
     @GetMapping({"", "/", "/index"})
     public String index(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -62,7 +55,7 @@ public class HomeController {
     @GetMapping("/ct")
     public String chatTeam(Model model){
         model.addAttribute("chat",service.chat());
-        return "ct";
+        return "chatTeam";
     }
 
     /**
@@ -73,7 +66,7 @@ public class HomeController {
     @GetMapping("/blog")
     public String blog(Model model){
         model.addAttribute("post",service.blog());
-        return "blog";
+        return "blogs";
     }
 
     /**
@@ -95,8 +88,8 @@ public class HomeController {
 
 
 
-    
-    
+
+
     /*
      * @Author 胡玉浩
      * @Description //TODO
@@ -111,4 +104,39 @@ public class HomeController {
         model.addAttribute("blogs", service.chatFindBname(name));
         return "repo";
     }
+
+
+    @GetMapping("ct/{name}/add")
+    public String add(@PathVariable("name") String name,Model model){
+        model.addAttribute("name",name);
+
+        return "add";
+    }
+
+
+    @PostMapping("/ct/chatteam/commit")
+    public String add(String chatteam,String btittle,String bcontext,Model model){
+
+        Blog blog = new Blog();
+        blog.setIsexist(1);
+        blog.setBcontext(bcontext);
+        blog.setBtittle(btittle);
+
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user=null;
+        if("anonymousUser".equals(principal)) {
+            model.addAttribute("name","anonymous");
+        }else {
+            user = (User)principal;
+            model.addAttribute("name",user.getUsername());
+        }
+
+        service.saveBlog(blog,chatteam,user.getUsername());
+
+        String url = "redirect:"+"/ct/"+chatteam;
+        return url;
+    }
+
+
 }

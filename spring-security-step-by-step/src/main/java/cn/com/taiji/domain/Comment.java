@@ -27,8 +27,6 @@ public class Comment {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "USERINFO_ID")
@@ -36,7 +34,6 @@ public class Comment {
 
     @Column(columnDefinition = "INT default 0")
     private int isexist;
-
 
     private String sub;
 
