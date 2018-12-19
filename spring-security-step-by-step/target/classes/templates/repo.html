@@ -9,7 +9,7 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script>
         function dele(bid){
-            alert(bid);
+
             $.ajax({
                 url: '/ct/chat/delete',
                 type: 'DELETE',
@@ -19,7 +19,6 @@
                 success: function(result) {
                      window.location.reload();
                 }
-
             })
         }
     </script>

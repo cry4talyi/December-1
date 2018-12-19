@@ -34,8 +34,8 @@ public class HelloController {
     Service service;
 
     @DeleteMapping("/ct/chat/delete")
-    public ResponseEntity<String> deleteBlog(@RequestBody String bid){
-        System.err.println(bid);
+    public ResponseEntity<String> deleteBlog( String bid){
+
         boolean b = service.deleteBlog(bid);
         if (b){
             return ResponseEntity.ok("删除成功");
