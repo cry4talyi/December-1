@@ -77,6 +77,7 @@ public class Service {
 //        return chatTeamRepository.findByCname(name).getBlogs();
 //    }
     public List<Blog> chatFindBname(String name){
+        System.err.println("1111111111111"+name);
         List<Blog> list2 =new ArrayList<>();
         List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
         for (Blog b:list
