@@ -92,11 +92,6 @@ public class HomeController {
         return "redirect:/ct";
     }
 
-
-
-
-
-
     /*
      * @Author 胡玉浩
      * @Description //TODO
@@ -108,6 +103,7 @@ public class HomeController {
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);
+        model.addAttribute("chatname",name);//获取讨论组名字
         model.addAttribute("blogs",service.chatFindBname(name) );
         return "repo";
     }

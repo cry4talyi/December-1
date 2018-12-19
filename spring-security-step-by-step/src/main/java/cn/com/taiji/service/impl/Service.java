@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,11 +76,31 @@ public class Service {
      **/
     
     public List<Blog> chatFindBname(String name){
-        System.err.println(name);
-        return chatTeamRepository.findByCname(name).getBlogs();
+        List<Blog> list2 =new ArrayList<>();
+        
+        List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
+        for (Blog b:list
+                ) {
+            if (b.getIsexist()==1){
+                list2.add(b);
+            }
+        }
+        return list2;
     }
-
-
+    //shanchu
+    @Transactional
+    public boolean deleteBlog(String bid){
+        
+        try{
+            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            blog.setIsexist(0);
+            blogRepository.saveAndFlush(blog);
+        } catch (Exception e){
+            return false;
+        }
+        
+        return true;
+    }
 
     @Transactional
     public void saveBlog(Blog blog,String chatteam,String username){
@@ -99,17 +120,5 @@ public class Service {
 
 
 
-    @Transactional
-    public boolean deleteBlog(String bid){
 
-        try{
-            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
-            blog.setIsexist(0);
-            blogRepository.saveAndFlush(blog);
-        } catch (Exception e){
-            return false;
-        }
-
-        return true;
-    }
 }
