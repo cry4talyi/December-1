@@ -5,12 +5,14 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -77,7 +79,6 @@ public class Service {
 //        return chatTeamRepository.findByCname(name).getBlogs();
 //    }
     public List<Blog> chatFindBname(String name){
-        System.err.println("1111111111111"+name);
         List<Blog> list2 =new ArrayList<>();
         List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
         for (Blog b:list
@@ -89,6 +90,9 @@ public class Service {
         return list2;
     }
 
+
+
+    @Transactional
     public void saveBlog(Blog blog,String chatteam,String username){
 
         UserInfo byUsername = userInfoRepository.findByUsername(username);
@@ -102,5 +106,21 @@ public class Service {
         userInfoRepository.saveAndFlush(byUsername);
         chatTeamRepository.saveAndFlush(byCname);
         blogRepository.save(blog);
+    }
+
+
+
+
+    public boolean deleteBlog(String bid){
+
+        try{
+            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            blog.setIsexist(0);
+            blogRepository.saveAndFlush(blog);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 }
