@@ -9,15 +9,12 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <script>
         function dele(bid){
-            alert(bid);
-            $.delete("/ct/chat/delete",
+            alert();
+            $.delete("/ct/chat/delete"+{bid},
                 {
                     bid:bid
                 },
                 function(data,status){
-                   // alert(data)
-                   //  window.location.reload();
-
                 }
             );
         }

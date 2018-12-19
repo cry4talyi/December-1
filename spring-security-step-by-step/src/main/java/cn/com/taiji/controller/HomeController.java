@@ -108,15 +108,7 @@ public class HomeController {
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);
-        List<Blog> blogs = service.chatFindBname(name);
-        List<Blog> blogList = new ArrayList<>();
-        for (Blog b:blogs
-             ) {
-            if(b.getIsexist()==1){
-                blogList.add(b);
-            }
-        }
-        model.addAttribute("blogs",blogList );
+        model.addAttribute("blogs",service.chatFindBname(name) );
         return "repo";
     }
 

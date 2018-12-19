@@ -89,7 +89,20 @@ public class Service {
         }
         return list2;
     }
-
+    
+    //删除帖子
+    public boolean deleteBlog(String bid){
+        System.err.println("bid是："+bid);
+        try{
+            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            blog.setIsexist(0);
+            blogRepository.saveAndFlush(blog);
+        } catch (Exception e){
+            return false;
+        }
+        
+        return true;
+    }
 
 
     @Transactional
@@ -111,16 +124,5 @@ public class Service {
 
 
 
-    public boolean deleteBlog(String bid){
-
-        try{
-            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
-            blog.setIsexist(0);
-            blogRepository.saveAndFlush(blog);
-        } catch (Exception e){
-            return false;
-        }
-
-        return true;
-    }
+    
 }
