@@ -10,16 +10,17 @@
     <script>
         function dele(bid){
             alert(bid);
-            $.delete("/ct/chat/delete",
-                {
+            $.ajax({
+                url: '/ct/chat/delete',
+                type: 'DELETE',
+                data:{
                     bid:bid
                 },
-                function(data,status){
-                   // alert(data)
-                   //  window.location.reload();
-
+                success: function(result) {
+                     window.location.reload();
                 }
-            );
+
+            })
         }
     </script>
 </head>

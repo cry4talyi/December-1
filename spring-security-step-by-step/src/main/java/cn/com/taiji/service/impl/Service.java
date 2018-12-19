@@ -99,7 +99,7 @@ public class Service {
 
 
 
-
+    @Transactional
     public boolean deleteBlog(String bid){
 
         try{
