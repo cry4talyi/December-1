@@ -49,6 +49,7 @@ public class Service {
     public List<Post> blog(){
         return this.postRepository.findAll();
     }
+  
 
     /**
      * @Author 郭兆龙
@@ -77,7 +78,6 @@ public class Service {
     
     public List<Blog> chatFindBname(String name){
         List<Blog> list2 =new ArrayList<>();
-        
         List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
         for (Blog b:list
                 ) {
@@ -98,8 +98,26 @@ public class Service {
         } catch (Exception e){
             return false;
         }
-        
         return true;
+    }
+    
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 15:29 2018/12/19
+     * @Param
+     * @return
+     * 在讨论组页面显示所有讨论组成员
+     **/
+    public List<UserInfo> chatTeamFindUser(String name){
+        List<UserInfo> list2 =new ArrayList<>();
+        List<UserInfo> list =chatTeamRepository.findByCname(name).getUserInfos();
+        for (UserInfo u:list
+                ) {
+            list2.add(u);
+        }
+        return list2;
     }
 
     @Transactional
