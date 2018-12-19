@@ -5,11 +5,13 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -73,11 +75,13 @@ public class Service {
      **/
     
     public List<Blog> chatFindBname(String name){
-        System.out.println(chatTeamRepository.findByCname(name).getBlogs());
+        System.err.println(name);
         return chatTeamRepository.findByCname(name).getBlogs();
     }
 
 
+
+    @Transactional
     public void saveBlog(Blog blog,String chatteam,String username){
 
         UserInfo byUsername = userInfoRepository.findByUsername(username);
@@ -91,5 +95,21 @@ public class Service {
         userInfoRepository.saveAndFlush(byUsername);
         chatTeamRepository.saveAndFlush(byCname);
         blogRepository.save(blog);
+    }
+
+
+
+
+    public boolean deleteBlog(String bid){
+
+        try{
+            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            blog.setIsexist(0);
+            blogRepository.saveAndFlush(blog);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 }

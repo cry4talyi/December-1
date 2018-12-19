@@ -17,12 +17,10 @@ import org.springframework.stereotype.Controller;
 
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -110,7 +108,15 @@ public class HomeController {
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);
-        model.addAttribute("blogs", service.chatFindBname(name));
+        List<Blog> blogs = service.chatFindBname(name);
+        List<Blog> blogList = new ArrayList<>();
+        for (Blog b:blogs
+             ) {
+            if(b.getIsexist()==1){
+                blogList.add(b);
+            }
+        }
+        model.addAttribute("blogs",blogList );
         return "repo";
     }
 
@@ -146,6 +152,9 @@ public class HomeController {
         String url = "redirect:"+"/ct/"+chatteam;
         return url;
     }
+
+
+
 
 
 }
