@@ -24,7 +24,7 @@ public class Blog {
     private String bcontext;
 
     @Column(columnDefinition = "INT default 0")
-    private int isexist;
+    private int isexist=1;
 
     @ManyToOne
     @JoinColumn(name = "USERINFO_ID")
