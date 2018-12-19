@@ -23,11 +23,16 @@
     <div id="content" class="col-md-8 col-md-offset-2">
         <table id="table" class="table table-bordered">
             <tr>
-                <th>讨论组</th>
+                <th>讨论组
+                    <ul class="nav navbar-right">
+                        <li class="active"><a th:href="@{/toAddChat}">新增讨论组</a></li>
+                    </ul>
+                </th>
             </tr>
             <tr th:each="prod:${chat}">
                 <td ><a th:href="@{'/ct/'+${prod.cname}}" th:text="${prod.cname}"></a></td>
             </tr>
+
         </table>
     </div>
 </div>

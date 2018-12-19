@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class Service {
 
     /**
      * @Author 郭兆龙
+     * @Date 2018/12/18
      * 用于讨论组跳转
      * @return
      */
@@ -38,11 +40,26 @@ public class Service {
 
     /**
      * @Author 郭兆龙
+     * @Date 2018/12/18
      * 跳转到博客
      */
     public List<Post> blog(){
         return this.postRepository.findAll();
     }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于新增讨论组
+     */
+    public void addChat(String cname){
+        ChatTeam chatTeam = new ChatTeam();
+        chatTeam.setIsexist(0);
+        chatTeam.setCname(cname);
+        chatTeamRepository.save(chatTeam);
+        chatTeamRepository.saveAndFlush(chatTeam);
+    }
+
 
 
 
