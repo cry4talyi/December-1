@@ -1,17 +1,21 @@
 package cn.com.taiji.service.impl;
 
+import cn.com.taiji.domain.Blog;
+import cn.com.taiji.domain.Comment;
+import cn.com.taiji.domain.UserInfo;
 import cn.com.taiji.domain.*;
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class Service {
@@ -29,6 +33,31 @@ public class Service {
     private CommentReposity commentReposity;
     @Autowired
     private PostRepository postRepository;
+
+    /*
+    * 作者：李伟函
+    * 返回帖子对象
+    * */
+    public Blog displayBlog(String id){
+//        return blogRepository.findById(Long.parseLong(id)).get();
+        System.out.println(blogRepository.findById(Long.valueOf(id)).get());
+        return blogRepository.findById(Long.valueOf(id)).get();
+    }
+
+    /*
+     * 作者：李伟函
+     * 保存回复
+     * */
+    public void saveReply(String textarea,String username,String bid){
+        Blog blog= blogRepository.findById(Long.valueOf(bid)).get();
+        UserInfo userInfo= userInfoRepository.findByUsername(username);
+        Comment comment= new Comment();
+        comment.setStatement(textarea);
+        comment.setUserInfo(userInfo);
+        comment.setBlog(blog);
+        commentReposity.saveAndFlush(comment);
+
+    }
 
     /**
      * @Author 郭兆龙
@@ -86,11 +115,52 @@ public class Service {
      **/
     
     public List<Blog> chatFindBname(String name){
-        System.out.println(chatTeamRepository.findByCname(name).getBlogs());
-        return chatTeamRepository.findByCname(name).getBlogs();
+        List<Blog> list2 =new ArrayList<>();
+
+        List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
+        for (Blog b:list
+                ) {
+            if (b.getIsexist()==1){
+                list2.add(b);
+            }
+        }
+        return list2;
+    }
+    //shanchu
+    @Transactional
+    public boolean deleteBlog(String bid){
+
+        try{
+            Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            blog.setIsexist(0);
+            blogRepository.saveAndFlush(blog);
+        } catch (Exception e){
+            return false;
+        }
+
+        return true;
     }
 
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 15:29 2018/12/19
+     * @Param
+     * @return
+     * 在讨论组页面显示所有讨论组成员
+     **/
+    public List<UserInfo> chatTeamFindUser(String name){
+        List<UserInfo> list2 =new ArrayList<>();
+        List<UserInfo> list =chatTeamRepository.findByCname(name).getUserInfos();
+        for (UserInfo u:list
+                ) {
+            list2.add(u);
+        }
+        return list2;
+    }
 
+    @Transactional
     public void saveBlog(Blog blog,String chatteam,String username){
 
         UserInfo byUsername = userInfoRepository.findByUsername(username);

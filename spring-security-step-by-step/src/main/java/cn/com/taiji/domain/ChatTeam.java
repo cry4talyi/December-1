@@ -52,7 +52,6 @@ public class ChatTeam {
                 "cid=" + cid +
                 ", cname='" + cname + '\'' +
 
-
                 '}';
     }
 

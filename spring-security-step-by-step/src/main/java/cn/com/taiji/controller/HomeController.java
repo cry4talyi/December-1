@@ -1,21 +1,29 @@
 package cn.com.taiji.controller;
 
 import cn.com.taiji.domain.Blog;
+import cn.com.taiji.domain.ChatTeam;
+import cn.com.taiji.repository.BlogRepository;
+import cn.com.taiji.repository.ChatTeamRepository;
+import cn.com.taiji.service.impl.Service;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by iandtop on 2018/12/11.
@@ -85,11 +93,6 @@ public class HomeController {
         return "redirect:/ct";
     }
 
-
-
-
-
-
     /*
      * @Author 胡玉浩
      * @Description //TODO
@@ -101,15 +104,18 @@ public class HomeController {
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);
-        model.addAttribute("blogs", service.chatFindBname(name));
+        model.addAttribute("chatname",name);//获取讨论组名字
+        model.addAttribute("blogs",service.chatFindBname(name) );
+        model.addAttribute("userName",service.chatTeamFindUser(name));
         return "repo";
     }
+
+
 
 
     @GetMapping("ct/{name}/add")
     public String add(@PathVariable("name") String name,Model model){
         model.addAttribute("name",name);
-
         return "add";
     }
 
@@ -131,12 +137,40 @@ public class HomeController {
             user = (User)principal;
             model.addAttribute("name",user.getUsername());
         }
-
         service.saveBlog(blog,chatteam,user.getUsername());
-
         String url = "redirect:"+"/ct/"+chatteam;
         return url;
     }
 
+
+
+
+    /*
+    * 作者：李伟函
+    *
+    * */
+    @RequestMapping("ct/{name}/{bid}")
+    public String blog(@PathVariable("name") String name, @PathVariable("bid") String bid, Model
+            model) {
+        model.addAttribute("blog",service.displayBlog(bid));
+
+        return "blog";
+    }
+
+    /*
+    * 作者：李伟函
+    * */
+    @RequestMapping("/addReply/{username}/{bid}")
+    public  String reply(@PathVariable("username") String username, @PathVariable("bid") String bid,String ttt,Model model){
+        System.out.println(ttt);
+        System.out.println(username);
+        System.out.println(bid);
+        service.saveReply(ttt,username,bid);
+        Blog blog=service.displayBlog(bid);
+        String name =blog.getChatTeam().getCid().toString();
+
+        String url = "redirect:"+"/ct/"+name+"/"+bid;
+       return url;
+    }
 
 }
