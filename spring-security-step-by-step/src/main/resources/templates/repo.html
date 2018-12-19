@@ -28,7 +28,8 @@
             <table class="table-content">
                 <tr th:each="prod: ${blogs}">
                     <td class="col-md-8">
-                        <a th:href="@{'/ct/diyizu/'+${prod.bid}}" th:text="${prod.btittle}"> </a>
+                        <a th:href="@{'/ct/'+${chatname}+'/'+${prod.bid}}" th:text="${prod.btittle}">
+                        </a>
                     </td>
 
                     <td class="col-md-4" th:text="${prod.getUserInfo().getUsername()}"></td>

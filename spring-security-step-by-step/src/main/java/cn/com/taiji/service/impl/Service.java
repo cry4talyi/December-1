@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -71,12 +72,21 @@ public class Service {
      * @Param
      * @return
      **/
-    
+//    public List<Blog> chatFindBname(String name){
+//        System.out.println(chatTeamRepository.findByCname(name).getBlogs());
+//        return chatTeamRepository.findByCname(name).getBlogs();
+//    }
     public List<Blog> chatFindBname(String name){
-        System.out.println(chatTeamRepository.findByCname(name).getBlogs());
-        return chatTeamRepository.findByCname(name).getBlogs();
+        List<Blog> list2 =new ArrayList<>();
+        List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
+        for (Blog b:list
+                ) {
+            if (b.getIsexist()==1){
+                list2.add(b);
+            }
+        }
+        return list2;
     }
-
 
     public void saveBlog(Blog blog,String chatteam,String username){
 
