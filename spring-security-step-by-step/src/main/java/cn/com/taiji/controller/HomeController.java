@@ -106,14 +106,16 @@ public class HomeController {
         logger.info("姓名为{}",name);
         model.addAttribute("chatname",name);//获取讨论组名字
         model.addAttribute("blogs",service.chatFindBname(name) );
+        model.addAttribute("userName",service.chatTeamFindUser(name));
         return "repo";
     }
 
+  
+    
 
     @GetMapping("ct/{name}/add")
     public String add(@PathVariable("name") String name,Model model){
         model.addAttribute("name",name);
-
         return "add";
     }
 
@@ -135,9 +137,7 @@ public class HomeController {
             user = (User)principal;
             model.addAttribute("name",user.getUsername());
         }
-
         service.saveBlog(blog,chatteam,user.getUsername());
-
         String url = "redirect:"+"/ct/"+chatteam;
         return url;
     }

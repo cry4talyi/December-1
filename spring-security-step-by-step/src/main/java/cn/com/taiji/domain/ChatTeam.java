@@ -51,8 +51,7 @@ public class ChatTeam {
         return "ChatTeam{" +
                 "cid=" + cid +
                 ", cname='" + cname + '\'' +
-
-
+                
                 '}';
     }
 

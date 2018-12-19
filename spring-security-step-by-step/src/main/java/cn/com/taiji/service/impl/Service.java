@@ -13,9 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
-@org.springframework.stereotype.Service
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +20,7 @@ import java.util.Optional;
 @org.springframework.stereotype.Service
 public class Service {
 
-
+    
 
 
     @Autowired
@@ -105,7 +102,7 @@ public class Service {
      * @Param
      * @return
      **/
-
+    
     public List<Blog> chatFindBname(String name){
         List<Blog> list2 =new ArrayList<>();
 
@@ -121,7 +118,7 @@ public class Service {
     //shanchu
     @Transactional
     public boolean deleteBlog(String bid){
-
+        
         try{
             Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
             blog.setIsexist(0);
@@ -131,6 +128,25 @@ public class Service {
         }
 
         return true;
+    }
+
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 15:29 2018/12/19
+     * @Param
+     * @return
+     * 在讨论组页面显示所有讨论组成员
+     **/
+    public List<UserInfo> chatTeamFindUser(String name){
+        List<UserInfo> list2 =new ArrayList<>();
+        List<UserInfo> list =chatTeamRepository.findByCname(name).getUserInfos();
+        for (UserInfo u:list
+                ) {
+            list2.add(u);
+        }
+        return list2;
     }
 
     @Transactional
