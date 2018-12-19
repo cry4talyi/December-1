@@ -1,8 +1,6 @@
 package cn.com.taiji.service.impl;
 
-import cn.com.taiji.domain.Blog;
-import cn.com.taiji.domain.ChatTeam;
-import cn.com.taiji.domain.Post;
+import cn.com.taiji.domain.*;
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +58,21 @@ public class Service {
     public List<Blog> chatFindBname(String name){
         System.out.println(chatTeamRepository.findByCname(name).getBlogs());
         return chatTeamRepository.findByCname(name).getBlogs();
+    }
+
+
+    public void saveBlog(Blog blog,String chatteam,String username){
+
+        UserInfo byUsername = userInfoRepository.findByUsername(username);
+        ChatTeam byCname = chatTeamRepository.findByCname(chatteam);
+        System.out.println(byCname.getCname());
+        System.out.println(byCname.getCname());
+        byUsername.getBlogs().add(blog);
+        byCname.getBlogs().add(blog);
+        blog.setChatTeam(byCname);
+        blog.setUserInfo(byUsername);
+        userInfoRepository.saveAndFlush(byUsername);
+        chatTeamRepository.saveAndFlush(byCname);
+        blogRepository.save(blog);
     }
 }

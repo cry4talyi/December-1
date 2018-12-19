@@ -95,4 +95,39 @@ public class HomeController {
         model.addAttribute("blogs", service.chatFindBname(name));
         return "repo";
     }
+
+
+    @GetMapping("ct/{name}/add")
+    public String add(@PathVariable("name") String name,Model model){
+        model.addAttribute("name",name);
+
+        return "add";
+    }
+
+
+    @PostMapping("/ct/chatteam/commit")
+    public String add(String chatteam,String btittle,String bcontext,Model model){
+
+        Blog blog = new Blog();
+        blog.setIsexist(1);
+        blog.setBcontext(bcontext);
+        blog.setBtittle(btittle);
+
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user=null;
+        if("anonymousUser".equals(principal)) {
+            model.addAttribute("name","anonymous");
+        }else {
+            user = (User)principal;
+            model.addAttribute("name",user.getUsername());
+        }
+
+        service.saveBlog(blog,chatteam,user.getUsername());
+
+        String url = "redirect:"+"/ct/"+chatteam;
+        return url;
+    }
+
+
 }
