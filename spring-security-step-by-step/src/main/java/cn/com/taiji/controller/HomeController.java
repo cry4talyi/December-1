@@ -1,17 +1,11 @@
 package cn.com.taiji.controller;
 
 import cn.com.taiji.domain.Blog;
-import cn.com.taiji.domain.ChatTeam;
-import cn.com.taiji.repository.BlogRepository;
-import cn.com.taiji.repository.ChatTeamRepository;
-import cn.com.taiji.service.impl.Service;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.com.taiji.service.impl.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -19,11 +13,6 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by iandtop on 2018/12/11.
@@ -74,7 +63,7 @@ public class HomeController {
     @GetMapping("/blog")
     public String blog(Model model){
         model.addAttribute("post",service.blog());
-        return "blogs";
+        return "blogsView";
     }
 
     /**
