@@ -24,7 +24,7 @@ public class Blog {
     private String bcontext;
 
     @Column(columnDefinition = "INT default 0")
-    private int isexist;
+    private int isexist=1;
 
     @ManyToOne
     @JoinColumn(name = "USERINFO_ID")
@@ -79,8 +79,8 @@ public class Blog {
         return isexist;
     }
 
-    public void setIsexist(int isexits) {
-        this.isexist = isexits;
+    public void setIsexist(int isexist) {
+        this.isexist = isexist;
     }
 
     public UserInfo getUserInfo() {

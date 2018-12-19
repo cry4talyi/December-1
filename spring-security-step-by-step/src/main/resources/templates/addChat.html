@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <title>新增讨论组</title>
+</head>
+<body>
+
+<form class="form-inline" action="/addChat" method="post" enctype="multipart/form-data">
+    <div class="form-group col-md-offset-4 col-md-6" >
+        <label class="col-md-3">新增讨论组：</label>
+        <input class="form-control" type="text" name="name" id="name" placeholder="讨论组名" />
+    </div>
+    <div>
+        <input type="submit" class="btn btn-defalut" />
+    </div>
+</form>
+</body>
+</html>
