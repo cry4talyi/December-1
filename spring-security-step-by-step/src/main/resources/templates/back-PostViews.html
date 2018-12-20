@@ -7,7 +7,22 @@
     <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <title>讨论组</title>
+    <title>博客组</title>
+    <script>
+        function dele(bid) {
+            alert(bid);
+            $.ajax({
+                url: '/ct/post/delete',
+                type: 'DELETE',
+                data: {
+                    bid: bid
+                },
+                success: function (result) {
+                    window.location.reload();
+                }
+            })
+        }
+    </script>
 </head>
 <body>
 <div class="col-md-12">
@@ -26,7 +41,11 @@
                 <th>博客</th>
             </tr>
             <tr th:each="prod:${post}">
-                <td ><a th:href="@{'/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a></td>
+                <td ><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
+                    <button th:onclick="'dele(\''+${prod.bid}+'\')'">
+                        删除帖子
+                    </button>
+                </td>
             </tr>
         </table>
     </div>
