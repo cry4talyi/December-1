@@ -1,5 +1,8 @@
 package cn.com.taiji.service.impl;
 
+import cn.com.taiji.domain.Blog;
+import cn.com.taiji.domain.Comment;
+import cn.com.taiji.domain.UserInfo;
 import cn.com.taiji.domain.*;
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
@@ -31,6 +34,31 @@ public class Service {
     @Autowired
     private PostRepository postRepository;
 
+    /*
+    * 作者：李伟函
+    * 返回帖子对象
+    * */
+    public Blog displayBlog(String id){
+//        return blogRepository.findById(Long.parseLong(id)).get();
+        System.out.println(blogRepository.findById(Long.valueOf(id)).get());
+        return blogRepository.findById(Long.valueOf(id)).get();
+    }
+
+    /*
+     * 作者：李伟函
+     * 保存回复
+     * */
+    public void saveReply(String textarea,String username,String bid){
+        Blog blog= blogRepository.findById(Long.valueOf(bid)).get();
+        UserInfo userInfo= userInfoRepository.findByUsername(username);
+        Comment comment= new Comment();
+        comment.setStatement(textarea);
+        comment.setUserInfo(userInfo);
+        comment.setBlog(blog);
+        commentReposity.saveAndFlush(comment);
+
+    }
+
     /**
      * @Author 郭兆龙
      * @Date 2018/12/18
@@ -38,7 +66,18 @@ public class Service {
      * @return
      */
     public List<ChatTeam> chat(){
-        return this.chatTeamRepository.findAll();
+        List<ChatTeam>list=new ArrayList<ChatTeam>();
+        List<ChatTeam>list2=new ArrayList<ChatTeam>();
+        list.addAll(this.chatTeamRepository.findAll());
+
+        for (int i=0;i<list.size();i++){
+            if (list.get(i).getIsexist()==1){
+                list2.add(list.get(i));
+            }
+
+        }
+
+        return list2;
     }
 
     /**
@@ -57,7 +96,7 @@ public class Service {
      */
     public void addChat(String cname){
         ChatTeam chatTeam = new ChatTeam();
-        chatTeam.setIsexist(0);
+        chatTeam.setIsexist(1);
         chatTeam.setCname(cname);
 
         chatTeamRepository.saveAndFlush(chatTeam);
@@ -77,7 +116,7 @@ public class Service {
     
     public List<Blog> chatFindBname(String name){
         List<Blog> list2 =new ArrayList<>();
-        
+
         List<Blog> list =chatTeamRepository.findByCname(name).getBlogs();
         for (Blog b:list
                 ) {
@@ -90,7 +129,7 @@ public class Service {
     //shanchu
     @Transactional
     public boolean deleteBlog(String bid){
-        
+
         try{
             Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
             for (Comment c:blog.getComments()
@@ -105,8 +144,27 @@ public class Service {
         } catch (Exception e){
             return false;
         }
-        
+
         return true;
+    }
+
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 15:29 2018/12/19
+     * @Param
+     * @return
+     * 在讨论组页面显示所有讨论组成员
+     **/
+    public List<UserInfo> chatTeamFindUser(String name){
+        List<UserInfo> list2 =new ArrayList<>();
+        List<UserInfo> list =chatTeamRepository.findByCname(name).getUserInfos();
+        for (UserInfo u:list
+                ) {
+            list2.add(u);
+        }
+        return list2;
     }
 
     @Transactional
@@ -123,8 +181,4 @@ public class Service {
         chatTeamRepository.saveAndFlush(byCname);
         blogRepository.save(blog);
     }
-
-
-
-
 }
