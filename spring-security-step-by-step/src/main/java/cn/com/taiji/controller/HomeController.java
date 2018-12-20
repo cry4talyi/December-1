@@ -131,8 +131,6 @@ public class HomeController {
         blog.setIsexist(1);
         blog.setBcontext(bcontext);
         blog.setBtittle(btittle);
-
-
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user=null;
         if("anonymousUser".equals(principal)) {

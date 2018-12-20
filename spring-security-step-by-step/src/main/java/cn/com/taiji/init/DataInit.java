@@ -131,6 +131,7 @@ public class DataInit {
 
         Comment c1 = new Comment();
         c1.setBlog(blog1);
+        c1.setIsexist(1);
         c1.setStatement("woshishei");
         c1.setUserInfo(user);
         List commentlist = new ArrayList();

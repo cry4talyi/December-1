@@ -98,7 +98,7 @@ public class Service {
         ChatTeam chatTeam = new ChatTeam();
         chatTeam.setIsexist(1);
         chatTeam.setCname(cname);
-        chatTeamRepository.save(chatTeam);
+
         chatTeamRepository.saveAndFlush(chatTeam);
     }
 
@@ -141,6 +141,13 @@ public class Service {
 
         try{
             Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            for (Comment c:blog.getComments()
+                 ) {
+                c.setIsexist(0);
+                commentReposity.saveAndFlush(c);
+            }
+            blog.setChatTeam(null);
+            blog.setUserInfo(null);
             blog.setIsexist(0);
             blogRepository.saveAndFlush(blog);
         } catch (Exception e){
@@ -174,8 +181,7 @@ public class Service {
 
         UserInfo byUsername = userInfoRepository.findByUsername(username);
         ChatTeam byCname = chatTeamRepository.findByCname(chatteam);
-        System.out.println(byCname.getCname());
-        System.out.println(byCname.getCname());
+
         byUsername.getBlogs().add(blog);
         byCname.getBlogs().add(blog);
         blog.setChatTeam(byCname);
