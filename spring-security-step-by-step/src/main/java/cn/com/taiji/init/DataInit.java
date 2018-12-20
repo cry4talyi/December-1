@@ -52,6 +52,9 @@ public class DataInit {
         normalRole.setDescription("普通用户");
         roleRepository.save(normalRole);
 
+
+
+
 //********************************************
 
         /*
@@ -173,12 +176,8 @@ public class DataInit {
         permissionRepository.save(permission1);
 
 
-
-
-
-
         Permission permission2 = new Permission();
-        permission2.setUrl("/helloAdmin");
+        permission2.setUrl("/manage");
         permission2.setName("管理员URL");
         permission2.setDescription("管理员的访问路径");
         List<Role> roles2 = new ArrayList<>();

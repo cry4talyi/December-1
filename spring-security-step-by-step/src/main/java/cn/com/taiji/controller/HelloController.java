@@ -46,6 +46,19 @@ public class HelloController {
 
 
 
+    @PutMapping("/setAsManage")
+    public void setAsManager(String uid){
+        service.setAsManager( uid);
+    }
+
+
+    @GetMapping("manage")
+    public String aaaaaa(){
+        return "权限足够";
+    }
+
+
+
 
 
 
