@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!--郭兆龙-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <title>新增博客</title>
+</head>
+<body>
+<form action="/manage/blog/commit" th:method="post">
+    博客标题：<input name="btittle" ><br/>
+    博客内容：<textarea rows="10" cols="40" name="bcontext"></textarea><br/>
+    <input type="submit">
+</form>
+</body>
+</html>
