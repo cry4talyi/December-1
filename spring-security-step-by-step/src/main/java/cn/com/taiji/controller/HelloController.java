@@ -43,8 +43,22 @@ public class HelloController {
         return ResponseEntity.status(404).body("删除失败");
         }
     }
-
-
+    
+    /*
+     *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 16:24 2018/12/19
+     * @Param
+     * @return
+     * 设置讨论组成员为组长
+     **/
+    @RequestMapping(value = "/ct/chat/setHead",method = RequestMethod.POST)
+    public ResponseEntity<String> setHead( String bid){
+    
+    
+       return null;
+    }
 
 
 
