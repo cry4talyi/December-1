@@ -62,7 +62,7 @@ public class Service {
     /**
      * @Author 郭兆龙
      * @Date 2018/12/18
-     * 用于讨论组跳转
+     * 用于显示所有讨论组
      * @return
      */
     public List<ChatTeam> chat(){
@@ -83,11 +83,21 @@ public class Service {
     /**
      * @Author 郭兆龙
      * @Date 2018/12/18
-     * 跳转到博客
+     * 跳转到博客列表
      */
     public List<Post> blog(){
-        return this.postRepository.findAll();
+        List<Post>list1 = new ArrayList<Post>();
+        List<Post>list2 = new ArrayList<Post>();
+        list1.addAll(this.postRepository.findAll());
+        for (Post post:list1
+             ) {
+            if (post.getIsexist()==1){
+                list2.add(post);
+            }
+        }
+        return list2;
     }
+
 
     /**
      * @Author 郭兆龙
@@ -103,13 +113,17 @@ public class Service {
     }
     /**
      * @Author 郭兆龙
-     * @Date 2018/12/18
-     * 用于跳转进博客
+     * @Date 2018/12/19
+     * 用于跳转进博客的详细页面
      */
     public Post toPost(Long bid){
         return postRepository.findByBid(bid);
     }
-    //删除讨论组
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员删除讨论组
+     */
     @Transactional
     public boolean deleteChatTeam(String cid){
 
@@ -125,7 +139,7 @@ public class Service {
 
     /**
      * @Author 郭兆龙
-     * @Date 2018/12/18
+     * @Date 2018/12/20
      * 用于管理员删除博客
      */
     @Transactional
@@ -140,6 +154,20 @@ public class Service {
         }
         return true;
     }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员新增博客
+     */
+    @Transactional
+    public void savePost(Post post,String userName){
+        UserInfo byUserName = userInfoRepository.findByUsername(userName);
+        byUserName.getPosts().add(post);
+        post.setUserInfo(byUserName);
+        userInfoRepository.saveAndFlush(byUserName);
+        postRepository.saveAndFlush(post);
+    }
+
 
 
 

@@ -11,7 +11,7 @@
         function dele(cid) {
             alert(cid);
             $.ajax({
-                url: '/ct/delete',
+                url: '/manage/delete',
                 type: 'DELETE',
                 data: {
                     cid: cid
@@ -50,10 +50,13 @@
             <div class="widget" th:each="prod:${chat}">
                 <hr />
                 <div class="h4">
-                    <a class="h4" th:href="@{'/ct/'+${prod.cname}}" th:text="${prod.cname}" ></a>
-                    <button th:onclick="'dele(\''+${prod.cid}+'\')'">
-                        删除讨论组
-                    </button>
+                    <a class="h4" th:href="@{'/manage/'+${prod.cname}}" th:text="${prod.cname}" ></a>
+
+                    <ul class="nav navbar-right">
+                        <button class="btn btn-default" th:onclick="'dele(\''+${prod.cid}+'\')'">
+                            删除讨论组
+                        </button>
+                    </ul>
                 </div>
             </div>
         </div>

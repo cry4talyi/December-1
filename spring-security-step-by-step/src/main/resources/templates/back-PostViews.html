@@ -12,7 +12,7 @@
         function dele(bid) {
             alert(bid);
             $.ajax({
-                url: '/ct/post/delete',
+                url: '/manage/post/delete',
                 type: 'DELETE',
                 data: {
                     bid: bid
@@ -34,22 +34,53 @@
         </div>
     </div>
 </div>
+
 <div class="container">
-    <div id="content" class="col-md-8 col-md-offset-2">
-        <table id="table" class="table table-bordered">
-            <tr>
-                <th>博客</th>
-            </tr>
-            <tr th:each="prod:${post}">
-                <td ><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
-                    <button th:onclick="'dele(\''+${prod.bid}+'\')'">
+    <div id="content" class="col-md-6 col-md-offset-2">
+        <div class="forumdiv">
+            <div class="menu-font">
+                <span class="h3">博客</span>
+                <ul class="nav navbar-right">
+                    <li class="active h4"><a th:href="@{/toAddBlog}">新增博客</a></li>
+                </ul>
+            </div>
+            <div class="widget" th:each="prod:${post}">
+                <hr />
+                <div class="h4">
+                    <a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
+                    <ul class="nav navbar-right">
+                        <button class="btn btn-default" th:onclick="'dele(\''+${prod.bid}+'\')'">
                         删除帖子
-                    </button>
-                </td>
-            </tr>
-        </table>
+                        </button>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<!--<div class="container">-->
+    <!--<div id="content" class="col-md-8 col-md-offset-2">-->
+        <!--<table id="table" class="table table-bordered">-->
+            <!--<tr>-->
+                <!--<th>博客</th>-->
+                <!--<ul class="nav navbar-right">-->
+                    <!--<li class="active h4"><a th:href="@{/toAddBlog}">新增博客</a></li>-->
+
+                <!--</ul>-->
+            <!--</tr>-->
+            <!--<tr th:each="prod:${post}">-->
+                <!--<td ><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>-->
+                    <!--<ul class="nav navbar-right">-->
+                    <!--<button class="btn btn-default" th:onclick="'dele(\''+${prod.bid}+'\')'">-->
+                        <!--删除帖子-->
+                    <!--</button>-->
+                <!--</td>-->
+                <!--</ul>-->
+            <!--</tr>-->
+        <!--</table>-->
+    <!--</div>-->
+<!--</div>-->
 <div class="col-md-12">
 </div>
 </body>
