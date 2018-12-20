@@ -1,11 +1,13 @@
 package cn.com.taiji.controller;
 
 import cn.com.taiji.domain.Blog;
+import cn.com.taiji.domain.Post;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -69,18 +71,132 @@ public class HomeController {
     /**
      * @Author 郭兆龙
      * @Date 2018/12/18
-     * 用于新增讨论组
+     * 用于跳转到新增讨论组页面
      */
     @GetMapping("/toAddChat")
     public String addChatTeam(){
         return "addChat";
     }
-
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于新增讨论组
+     */
     @PostMapping("/addChat")
     public String addChat(String name){
         service.addChat(name);
-        return "redirect:/ct";
+        return "redirect:/manage";
     }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/19
+     * 用于从博客列表进入到详细页面
+     */
+    @GetMapping("/ct/blog/{bid}")
+    public String post(Model model,@PathVariable(name = "bid")String bid ){
+        model.addAttribute("posts",service.toPost(Long.valueOf(bid)));
+        return "post";
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员显示所有讨论组界面
+     */
+    @GetMapping("/manage")
+    public String backChatTeam(Model model){
+        model.addAttribute("chat",service.chat());
+        return "manageChatTeam";
+    }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员删除讨论组
+     */
+    @DeleteMapping("/manage/delete")
+    public ResponseEntity<String> deleteBlog(String cid){
+        System.err.println(cid);
+        boolean b = service.deleteChatTeam(cid);
+        if (b){
+            return ResponseEntity.ok("删除成功");
+        }else {
+            return ResponseEntity.status(404).body("删除失败");
+        }
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员删除博客
+     */
+    @DeleteMapping("/manage/post/delete")
+    public ResponseEntity<String> deletePost(String bid){
+        System.err.println(bid);
+        boolean b = service.deletePost(bid);
+        if (b){
+            return ResponseEntity.ok("删除成功");
+        }else {
+            return ResponseEntity.status(404).body("删除失败");
+        }
+    }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员跳转进博客
+     */
+    @GetMapping("/manage/blog")
+    public String toManageBlog(Model model){
+        model.addAttribute("post",service.blog());
+        return "back-PostViews";
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员跳转到新增博客的页面
+     */
+    @GetMapping("/toAddBlog")
+    public String toAddBlog(){
+        return "addPost";
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员新增博客功能
+     */
+    @PostMapping("/manage/blog/commit")
+    public String blogCommit(String btittle,String bcontext,Model model){
+        Post post = new Post();
+        post.setBtittle(btittle);
+        post.setBcontext(bcontext);
+        post.setIsexist(1);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user=null;
+        if("anonymousUser".equals(principal)) {
+            model.addAttribute("name","anonymous");
+        }else {
+            user = (User)principal;
+            model.addAttribute("name",user.getUsername());
+        }
+        service.savePost(post,user.getUsername());
+        return "redirect:/manage/blog";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*
      * @Author 胡玉浩
@@ -89,7 +205,7 @@ public class HomeController {
      * @Param
      * @return
      **/
-    //跳转到讨论组详情页面
+    //跳转到前端讨论组详情页面
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);
@@ -98,8 +214,23 @@ public class HomeController {
         model.addAttribute("userName",service.chatTeamFindUser(name));
         return "repo";
     }
-
-
+    
+    /*
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 11:19 2018/12/18
+     * @Param
+     * @return
+     **/
+    //跳转到后端讨论组详情页面
+    @RequestMapping("manage/{name}")
+    public String backBlog(@PathVariable("name") String name, Model model) {
+        logger.info("111111姓名为{}",name);
+        model.addAttribute("chatname",name);//获取讨论组名字
+        model.addAttribute("blogs",service.chatFindBname(name) );
+        model.addAttribute("userName",service.chatFindBname(name));
+        return "back-repo";
+    }
 
 
     @GetMapping("ct/{name}/add")
@@ -116,8 +247,6 @@ public class HomeController {
         blog.setIsexist(1);
         blog.setBcontext(bcontext);
         blog.setBtittle(btittle);
-
-
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user=null;
         if("anonymousUser".equals(principal)) {
@@ -161,5 +290,11 @@ public class HomeController {
         String url = "redirect:"+"/ct/"+name+"/"+bid;
        return url;
     }
+
+
+
+
+
+
 
 }

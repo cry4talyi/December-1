@@ -7,7 +7,7 @@
     <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <title>讨论组</title>
+    <title>博客组</title>
 </head>
 <body>
 <div class="col-md-12">
@@ -26,12 +26,25 @@
                 <th>博客</th>
             </tr>
             <tr th:each="prod:${post}">
-                <td ><a th:href="@{'/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a></td>
+                <td ><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
+
+                </td>
             </tr>
         </table>
     </div>
 </div>
 <div class="col-md-12">
+</div>
+
+<div class="widget widget_search">
+    <form th:action="" class="navbar-form" method="post">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字"
+                   maxlength="15" autocomplete="off"/>
+            <span class="input-group-btn"><input type="submit" value="搜索"/>
+            </span>
+        </div>
+    </form>
 </div>
 </body>
 </html>

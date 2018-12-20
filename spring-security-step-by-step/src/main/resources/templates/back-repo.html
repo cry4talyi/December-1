@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--胡玉浩-->
+<!--帖子管理员界面-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>repo</title>
+    <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+
+        function dele(bid) {
+            alert(bid);
+            $.ajax({
+                url: '/manage/chat/delete',
+                type: 'DELETE',
+                data: {
+                    bid: bid
+                },
+                success: function (result) {
+                    window.location.reload();
+                }
+            })
+        }
+        //设置为组长
+        function setHead(uid) {
+            alert(uid);
+            $.ajax({
+                url: '/manage/chat/setHead',
+                type: 'post',
+                data: {
+                    uid: uid
+                },
+                success: function (result) {
+                    window.location.reload();
+                    alert("设置组长成功！")
+                }
+            })
+        }
+
+    </script>
+</head>
+<body>
+
+<div class="col-md-12">
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/index">首页</a></li>
+        <li></li>
+        <li><a href="/community/blog/index">博客</a></li>
+        <li class="active"><a href="">讨论组</a></li>
+        <li><a title="登录" href="/login"><span class="glyphicon glyphicon-log-in">登录</span></a></li>
+        <li></li>
+    </ul>
+</div>
+
+<!--添加新帖子-->
+<div class="container">
+    <div><a th:href="@{'/manage/'+${name}+'/add'}">添加新帖子</a></div>
+    <div class="col-md-8,col-md-offset-4">
+        <table class="table-content">
+            <tr th:each="prod: ${blogs}">
+                <td class="col-md-8">
+                    <a th:href="@{'/ct/'+${chatname}+'/'+${prod.bid}}" th:text="${prod.btittle}">
+                    </a>
+                </td>
+                <td class="col-md-2" th:text="${prod.getUserInfo().getUsername()}"></td>
+                <td class="col-md-2">
+                    <button th:onclick="'dele(\''+${prod.getBid()}+'\')'">
+                        删除
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="container">
+ <table border="1">
+     <tr th:each="u: ${userName}">
+         <!--<td th:text="${u.username}"></td>-->
+         <!--<td><button th:onclick="'setHead('+${u.getUid()}+')'">设置为组长</button></td>-->
+     </tr>
+ </table>
+</div>
+
+</body>
+</html>

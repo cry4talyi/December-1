@@ -30,12 +30,22 @@ import java.util.List;
  */
 @RestController
 public class HelloController {
-@Autowired
+    @Autowired
     Service service;
 
-    @DeleteMapping("/ct/chat/delete")
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 9:50 2018/12/20
+     * @Param
+     * @return
+     * 删除页面
+     **/
+    
+    @DeleteMapping("/manage/chat/delete")
     public ResponseEntity<String> deleteBlog( String bid){
-        System.err.println(bid);
+
         boolean b = service.deleteBlog(bid);
         if (b){
             return ResponseEntity.ok("删除成功");
@@ -43,6 +53,26 @@ public class HelloController {
         return ResponseEntity.status(404).body("删除失败");
         }
     }
+    
+    /*
+     *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 16:24 2018/12/19
+     * @Param
+     * @return
+     * 设置讨论组成员为组长
+     **/
+    @RequestMapping(value = "/manage/chat/setHead",method = RequestMethod.POST)
+    public void setHead( String uid){
+        service.setAsManager( uid);
+
+    }
+//    @GetMapping("manage")
+//    public String aaaaaa(){
+//
+//        return "权限足够";
+//    }
 
 
 

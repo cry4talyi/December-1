@@ -12,5 +12,7 @@ public interface ChatTeamRepository extends JpaRepository<ChatTeam,Long> {
 
     public ChatTeam findByCname(String name);
 
+    public ChatTeam findByCid(Long cid);
+
     public ChatTeam findByIsexist(int is);
 }
