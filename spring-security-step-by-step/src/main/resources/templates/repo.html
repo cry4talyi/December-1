@@ -23,10 +23,7 @@
 </div>
 
 <!--添加新帖子-->
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/dev
 <div class="container">
     <div><a th:href="@{'/ct/'+${name}+'/add'}">添加新帖子</a></div>
     <div class="col-md-8,col-md-offset-4">
@@ -44,13 +41,13 @@
     </div>
 </div>
 
+<!--获取讨论组成员-->
 <div class="container">
     <table border="1">
         <tr th:each="u: ${userName}">
             <td th:text="${u.username}"></td>
         </tr>
     </table>
-
 </div>
 
 </body>
