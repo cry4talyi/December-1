@@ -46,16 +46,11 @@
                         <a th:href="@{'/ct/'+${chatname}+'/'+${prod.bid}}" th:text="${prod.btittle}">
                         </a>
                     </td>
-
                     <td class="col-md-4" th:text="${prod.getUserInfo().getUsername()}"></td>
-                    <!--<td>-->
-                        <!--<a th:href="" th:text="${prod.getUserInfo().getUsername()}"></a>-->
-                    <!--</td>-->
                     <td class="col-md-8"><button  th:onclick="'dele(\''+${prod.getBid()}+'\')'">删除</button></td>
                 </tr>
             </table>
         </div>
-
     </div>
 
 </body>
