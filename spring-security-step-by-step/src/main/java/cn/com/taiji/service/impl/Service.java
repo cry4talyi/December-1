@@ -98,7 +98,7 @@ public class Service {
         ChatTeam chatTeam = new ChatTeam();
         chatTeam.setIsexist(1);
         chatTeam.setCname(cname);
-        chatTeamRepository.save(chatTeam);
+
         chatTeamRepository.saveAndFlush(chatTeam);
     }
     /**
@@ -166,12 +166,28 @@ public class Service {
         }
         return list2;
     }
-    //shanchu
+    /*
+    *
+     * @Author 伊文斌 and 胡玉浩
+     * @Description //TODO
+     * @Date 10:05 2018/12/20
+     * @Param
+     * @return
+     * 删除帖子
+     **/
+    
     @Transactional
     public boolean deleteBlog(String bid){
 
         try{
             Blog blog = blogRepository.findById(Long.parseLong(bid)).get();
+            for (Comment c:blog.getComments()
+                 ) {
+                c.setIsexist(0);
+                commentReposity.saveAndFlush(c);
+            }
+            blog.setChatTeam(null);
+            blog.setUserInfo(null);
             blog.setIsexist(0);
             blogRepository.saveAndFlush(blog);
         } catch (Exception e){
@@ -205,8 +221,7 @@ public class Service {
 
         UserInfo byUsername = userInfoRepository.findByUsername(username);
         ChatTeam byCname = chatTeamRepository.findByCname(chatteam);
-        System.out.println(byCname.getCname());
-        System.out.println(byCname.getCname());
+
         byUsername.getBlogs().add(blog);
         byCname.getBlogs().add(blog);
         blog.setChatTeam(byCname);

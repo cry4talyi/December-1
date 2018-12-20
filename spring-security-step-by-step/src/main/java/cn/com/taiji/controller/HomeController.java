@@ -157,7 +157,7 @@ public class HomeController {
      * @Param
      * @return
      **/
-    //跳转到讨论组详情页面
+    //跳转到前端讨论组详情页面
     @RequestMapping("ct/{name}")
     public String blog(@PathVariable("name") String name, Model model) {
         logger.info("姓名为{}",name);
@@ -166,8 +166,23 @@ public class HomeController {
         model.addAttribute("userName",service.chatTeamFindUser(name));
         return "repo";
     }
-
-
+    
+    /*
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 11:19 2018/12/18
+     * @Param
+     * @return
+     **/
+    //跳转到后端讨论组详情页面
+    @RequestMapping("manage/{name}")
+    public String backBlog(@PathVariable("name") String name, Model model) {
+        logger.info("姓名为{}",name);
+        model.addAttribute("chatname",name);//获取讨论组名字
+        model.addAttribute("blogs",service.chatFindBname(name) );
+        model.addAttribute("userName",service.chatFindBname(name));
+        return "back-repo";
+    }
 
 
     @GetMapping("ct/{name}/add")
@@ -184,8 +199,6 @@ public class HomeController {
         blog.setIsexist(1);
         blog.setBcontext(bcontext);
         blog.setBtittle(btittle);
-
-
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user=null;
         if("anonymousUser".equals(principal)) {
