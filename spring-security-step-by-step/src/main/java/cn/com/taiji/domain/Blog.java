@@ -23,8 +23,8 @@ public class Blog {
     @Column(columnDefinition = "TEXT")
     private String bcontext;
 
-    @Column(columnDefinition = "INT default 0")
-    private int isexist=1;
+    @Column(columnDefinition = "INT default 1")
+    private int isexist;
 
     @ManyToOne
     @JoinColumn(name = "USERINFO_ID")

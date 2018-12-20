@@ -23,7 +23,7 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String bcontext;
 
-    @Column(columnDefinition = "INT default 0")
+    @Column(columnDefinition = "INT default 1")
     private int isexist;
 
     @ManyToOne

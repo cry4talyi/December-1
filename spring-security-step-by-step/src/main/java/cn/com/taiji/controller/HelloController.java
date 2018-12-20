@@ -33,7 +33,17 @@ public class HelloController {
 @Autowired
     Service service;
 
-    @DeleteMapping("/ct/chat/delete")
+    /*
+    *
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 9:50 2018/12/20
+     * @Param
+     * @return
+     * 删除页面
+     **/
+    
+    @DeleteMapping("/manage/chat/delete")
     public ResponseEntity<String> deleteBlog( String bid){
         System.err.println(bid);
         boolean b = service.deleteBlog(bid);
@@ -53,7 +63,7 @@ public class HelloController {
      * @return
      * 设置讨论组成员为组长
      **/
-    @RequestMapping(value = "/ct/chat/setHead",method = RequestMethod.POST)
+    @RequestMapping(value = "/manage/chat/setHead",method = RequestMethod.POST)
     public ResponseEntity<String> setHead( String bid){
     
     
