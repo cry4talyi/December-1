@@ -101,6 +101,46 @@ public class Service {
 
         chatTeamRepository.saveAndFlush(chatTeam);
     }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于跳转进博客
+     */
+    public Post toPost(Long bid){
+        return postRepository.findByBid(bid);
+    }
+    //删除讨论组
+    @Transactional
+    public boolean deleteChatTeam(String cid){
+
+        try{
+            ChatTeam chatTeam = chatTeamRepository.findByCid(Long.parseLong(cid));
+            chatTeam.setIsexist(0);
+            chatTeamRepository.saveAndFlush(chatTeam);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于管理员删除博客
+     */
+    @Transactional
+    public boolean deletePost(String bid){
+
+        try{
+            Post post=postRepository.findByBid(Long.parseLong(bid));
+            post.setIsexist(0);
+            postRepository.saveAndFlush(post);
+        } catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
 
 
 

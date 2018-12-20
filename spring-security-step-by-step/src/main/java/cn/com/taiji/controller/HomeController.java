@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -81,6 +82,66 @@ public class HomeController {
         service.addChat(name);
         return "redirect:/ct";
     }
+
+    @GetMapping("/ct/blog/{bid}")
+    public String post(Model model,@PathVariable(name = "bid")String bid ){
+        model.addAttribute("posts",service.toPost(Long.valueOf(bid)));
+        return "post";
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于管理员显示所有讨论组界面
+     */
+    @GetMapping("/manage")
+    public String backChatTeam(Model model){
+        model.addAttribute("chat",service.chat());
+        return "manageChatTeam";
+    }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于管理员删除讨论组
+     */
+    @DeleteMapping("/ct/delete")
+    public ResponseEntity<String> deleteBlog(String cid){
+        System.err.println(cid);
+        boolean b = service.deleteChatTeam(cid);
+        if (b){
+            return ResponseEntity.ok("删除成功");
+        }else {
+            return ResponseEntity.status(404).body("删除失败");
+        }
+    }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于管理员删除博客
+     */
+    @DeleteMapping("/ct/post/delete")
+    public ResponseEntity<String> deletePost(String bid){
+        System.err.println(bid);
+        boolean b = service.deleteChatTeam(bid);
+        if (b){
+            return ResponseEntity.ok("删除成功");
+        }else {
+            return ResponseEntity.status(404).body("删除失败");
+        }
+    }
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/18
+     * 用于管理员跳转进博客
+     */
+    @GetMapping("/manage/blog")
+    public String toManageBlog(Model model){
+        model.addAttribute("post",service.blog());
+        return "back-PostViews";
+    }
+
+    
 
     /*
      * @Author 胡玉浩
