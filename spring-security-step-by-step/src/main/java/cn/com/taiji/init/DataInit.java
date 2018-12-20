@@ -132,6 +132,8 @@ public class DataInit {
         blog1.setChatTeam(chatTeam1);
         blog2.setChatTeam(chatTeam1);
 
+        blog1.setIsexist(1);
+        blog2.setIsexist(1);
         Comment c1 = new Comment();
         c1.setBlog(blog1);
         c1.setIsexist(1);
@@ -153,10 +155,12 @@ public class DataInit {
         userInfoRepository.save(admin);
         userInfoRepository.save(user);
 
+        post.setIsexist(1);
 
         postRepository.save(post);
 
-
+        chatTeam1.setIsexist(1);
+        chatTeam2.setIsexist(1);
         chatTeamRepository.save(chatTeam1);
         chatTeamRepository.save(chatTeam2);
 
