@@ -58,6 +58,9 @@ public class DataInit {
         normalRole.setDescription("普通用户");
         roleRepository.save(normalRole);
 
+
+
+
 //********************************************
 
         /*
@@ -133,6 +136,8 @@ public class DataInit {
         blog1.setChatTeam(chatTeam1);
         blog2.setChatTeam(chatTeam1);
 
+        blog1.setIsexist(1);
+        blog2.setIsexist(1);
         Comment c1 = new Comment();
         c1.setBlog(blog1);
         c1.setIsexist(1);
@@ -154,10 +159,12 @@ public class DataInit {
         userInfoRepository.save(admin);
         userInfoRepository.save(user);
 
+        post.setIsexist(1);
 
         postRepository.save(post);
 
-
+        chatTeam1.setIsexist(1);
+        chatTeam2.setIsexist(1);
         chatTeamRepository.save(chatTeam1);
         chatTeamRepository.save(chatTeam2);
 
@@ -178,7 +185,7 @@ public class DataInit {
 
 
         Permission permission2 = new Permission();
-        permission2.setUrl("/helloAdmin");
+        permission2.setUrl("/manage");
         permission2.setName("管理员URL");
         permission2.setDescription("管理员的访问路径");
         List<Role> roles2 = new ArrayList<>();

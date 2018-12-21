@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 public class HelloController {
-@Autowired
+    @Autowired
     Service service;
 
     /*
@@ -64,11 +64,17 @@ public class HelloController {
      * 设置讨论组成员为组长
      **/
     @RequestMapping(value = "/manage/chat/setHead",method = RequestMethod.POST)
-    public ResponseEntity<String> setHead( String bid){
-    
-    
-       return null;
+    public void setHead( String uid){
+        service.setAsManager( uid);
+
     }
+//    @GetMapping("manage")
+//    public String aaaaaa(){
+//
+//        return "权限足够";
+//    }
+
+
 
 
 
