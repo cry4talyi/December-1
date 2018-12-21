@@ -3,7 +3,10 @@ package cn.com.taiji.support;
 import cn.com.taiji.domain.Role;
 import cn.com.taiji.domain.UserInfo;
 import cn.com.taiji.service.UserInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -24,15 +27,22 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+    private Logger logger = LoggerFactory.getLogger(CustomUserDetailService.class);
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //username ---> UserDetails
-        //1. 根据usernaem从数据库查处UserInfo
+        //从redis中取得userinfo
+
         UserInfo userInfo = userInfoService.findByUsername(username);
         if (userInfo == null) {
             throw new UsernameNotFoundException("Not found UserInfo By username=" + username);
-        }
-        String password = userInfo.getPassword();
+       }
+       //password 根据用户名从redis中取出
+        String password = (String)redisTemplate.opsForHash().get("UserInfo",username);
+
 
         //2.
         List<GrantedAuthority> authorities = new ArrayList();
@@ -47,5 +57,6 @@ public class CustomUserDetailService implements UserDetailsService {
 
         UserDetails user = new User(username, password, authorities);
         return user;
+//      return null;
     }
 }
