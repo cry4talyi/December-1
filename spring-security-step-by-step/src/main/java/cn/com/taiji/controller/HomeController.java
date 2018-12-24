@@ -78,7 +78,7 @@ public class HomeController {
      * 跳转到博客界面
      **/
     
-    @PostMapping("/blog")
+    @RequestMapping("/blog")
     public String toBlog(String keyword,Model model){
         //博客页面
         model.addAttribute("post",service.blog());
