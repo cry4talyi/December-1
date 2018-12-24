@@ -2,9 +2,7 @@ package cn.com.taiji.controller;
 
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.domain.Post;
-import cn.com.taiji.repository.PostRepository;
 import cn.com.taiji.service.impl.Service;
-import javafx.geometry.Pos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -204,7 +202,20 @@ public class HomeController {
         return "redirect:/manage/blog";
     }
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /*
      * @Author 胡玉浩
@@ -294,10 +305,9 @@ public class HomeController {
         service.saveReply(ttt,username,bid);
         Blog blog=service.displayBlog(bid);
         String name =blog.getChatTeam().getCid().toString();
+
         String url = "redirect:"+"/ct/"+name+"/"+bid;
        return url;
     }
-    
-    
-    
+
 }

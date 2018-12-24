@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -42,6 +43,8 @@ public class Service {
     private CommentReposity commentReposity;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     /*
     * 作者：李伟函
@@ -253,7 +256,6 @@ public class Service {
         }
         return list2;
     }
-    
 
     @Transactional
     public void saveBlog(Blog blog,String chatteam,String username){
@@ -311,4 +313,13 @@ public class Service {
     }
 
    
+
+
+/*设置管理员*/
+    public void setAsManager(String uid) {
+        UserInfo userInfo = userInfoRepository.findById(Long.parseLong(uid)).get();
+        Role role_admin = roleRepository.findByName("ROLE_ADMIN");
+        userInfo.getRoles().add(role_admin);
+        userInfoRepository.saveAndFlush(userInfo);
+    }
 }

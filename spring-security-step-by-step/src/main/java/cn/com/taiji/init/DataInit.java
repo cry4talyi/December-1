@@ -3,12 +3,15 @@ package cn.com.taiji.init;
 import cn.com.taiji.domain.*;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by iandtop on 2018/12/11.
@@ -39,6 +42,9 @@ public class DataInit {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @PostConstruct
     public void dataInit() {
@@ -131,6 +137,8 @@ public class DataInit {
         blog1.setChatTeam(chatTeam1);
         blog2.setChatTeam(chatTeam1);
 
+        blog1.setIsexist(1);
+        blog2.setIsexist(1);
         Comment c1 = new Comment();
         c1.setBlog(blog1);
         c1.setIsexist(1);
@@ -158,10 +166,12 @@ public class DataInit {
         userInfoRepository.save(admin);
         userInfoRepository.save(user);
 
+        post.setIsexist(1);
 
         postRepository.save(post);
-        postRepository.save(post1);
 
+        chatTeam1.setIsexist(1);
+        chatTeam2.setIsexist(1);
         chatTeamRepository.save(chatTeam1);
         chatTeamRepository.save(chatTeam2);
 
@@ -186,7 +196,7 @@ public class DataInit {
 
 
         Permission permission2 = new Permission();
-        permission2.setUrl("/helloAdmin");
+        permission2.setUrl("/manage");
         permission2.setName("管理员URL");
         permission2.setDescription("管理员的访问路径");
         List<Role> roles2 = new ArrayList<>();
@@ -203,5 +213,32 @@ public class DataInit {
         roles3.add(adminRole);
         permission3.setRoles(roles3);
         permissionRepository.save(permission3);
+
+
+        try {
+            System.out.println(redisTemplate);
+            redisCache(userInfoRepository);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    * @Author liqingyao
+    * @date 20181221
+    * @description 从数据库中去处用户名和密码，放到redis缓存中
+    * */
+    public void redisCache(UserInfoRepository userInfoRepository) throws Exception {
+
+        List<UserInfo> userInfos = userInfoRepository.findAll();
+        Map newMap = new HashMap();
+        for (UserInfo userinfo : userInfos) {
+
+            newMap.put(userinfo.getUsername(), userinfo.getPassword());
+            //logger.info(newMap.toString());
+            //logger.info(redisTemplate.toString());
+            redisTemplate.opsForHash().putAll("UserInfo", newMap);
+//            redisTemplate.opsForValue().set("userinfo", 123);
+        }
     }
 }

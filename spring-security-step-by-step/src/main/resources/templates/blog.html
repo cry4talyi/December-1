@@ -6,40 +6,50 @@
     <meta charset="UTF-8"/>
     <title>Title</title>
     <title>bb</title>
+    <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
+<div class="row" th:each="bbb: ${blog}">
+    <div class="col-md-2" ></div>
+    <div class="col-md-8"th:each="bbb: ${blog}">
+        <h3><div class="text-center"  th:text="${blog.btittle}"></div></h3>
+        <br>
 
-<table>
-    <tr>
-        <td>标题</td>
-        <td>内容</td>
-    </tr>
-    <tr th:each="bbb: ${blog}">
-        <td th:text="${blog.btittle}"></td>
-        <td th:text="${blog.bcontext}"></td>
-        <td th:text="${blog.userInfo.username}"></td>
-    </tr>
+        <div class="text-center" >作者：<span th:text="${blog.userInfo.username}"></span></div>
+        <br>
 
+        <div class="" th:text="${blog.bcontext}"></div>
+        <br>
+        <br>
+        <ul class="nav nav-list"><li class="divider"></li></ul>
+        <table class="table table-hover" >
+            <tr th:each="ccc: ${blog.comments}">
+                <td class="right " width="30" th:text="${ccc.userInfo.username}+':'"></td>
+                <td th:text="${ccc.statement}"></td>
 
-    <tr th:each="ccc: ${blog.comments}">
-        <td th:text="${ccc.statement}"></td>
-        <td th:text="${ccc.userInfo.username}"></td>
-    </tr>
+                <!--<div class="col-md-1" th:text="${ccc.userInfo.username}"><span>:</span><span th:text="${ccc.userInfo.username}"></span></div>-->
+            </tr>
+        </table>
 
+        <ul class="nav nav-list"><li class="divider"></li></ul>
 
+        <form th:action="@{'/addReply/'+${blog.userInfo.username}+'/'+${blog.bid}}" method="post">
+            <!--<form th:action="@{/addReply/{bid}(bid=${blog.getBid()})}"></form>-->
+            <!--<form action="/add/" method="post" enctype="multipart/form-data">-->
 
+            <textarea name="ttt" rows="5" cols="60"></textarea>
+            <br/>
+            <input type="submit" class="panel panel-primary" value="提交" />
+        </form>
 
-</table>
-<br/>
-<form th:action="@{'/addReply/'+${blog.userInfo.username}+'/'+${blog.bid}}" method="post">
-    <!--<form th:action="@{/addReply/{bid}(bid=${blog.getBid()})}"></form>-->
-    <!--<form action="/add/" method="post" enctype="multipart/form-data">-->
-
-    <textarea name="ttt" rows="10" cols="30"></textarea>
-    <br/>
-    <input type="submit" value="提交" />
-</form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
 
 </body>
 </html>

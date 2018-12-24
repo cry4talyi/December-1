@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 public class HelloController {
-@Autowired
+    @Autowired
     Service service;
 
     /*
@@ -58,30 +58,18 @@ public class HelloController {
      * 设置讨论组成员为组长
      **/
     @RequestMapping(value = "/manage/chat/setHead",method = RequestMethod.POST)
-    public ResponseEntity<String> setHead( String bid){
-    
-    
-       return null;
+    public void setHead( String uid){
+        service.setAsManager( uid);
+
     }
-    
-//    /*
-//     *搜索框进行模糊查询
-//     * @Author 胡玉浩
-//     * @Description //TODO
-//     * @Date 14:57 2018/12/20
-//     * @Param
-//     * @return
-//     **/
-//    @Autowired
-//    PostRepository postRepository;
-//    @RequestMapping("/seek")
-//    public List<Post> seekKeyword(String keyword,Model model){
+//    @GetMapping("manage")
+//    public String aaaaaa(){
 //
-////        model.addAttribute("prods",service.findNameLike(keyword));
-////        System.out.println("9999999999999999999999999999"+model);
-////        return postRepository.findByBtittleLike("%"+keyword+"%");
-//        return postRepository.findAll();
+//        return "权限足够";
 //    }
+
+
+
 
 
 
