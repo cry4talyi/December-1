@@ -56,7 +56,6 @@
 
 <!--添加新帖子-->
 <div class="container">
-    <div><a th:href="@{'/manage/'+${name}+'/add'}">添加新帖子</a></div>
     <div class="col-md-8,col-md-offset-4">
         <table class="table-content">
             <tr th:each="prod: ${blogs}">
@@ -75,11 +74,10 @@
     </div>
 </div>
 
-
 <div class="container">
  <table border="1">
-     <tr th:each="u: ${userName}">
-         <!--<td th:text="${u.username}"></td>-->
+     <tr th:each="u: ${userName2}">
+         <td th:text="${u.getUsername()}"></td>
          <!--<td><button th:onclick="'setHead('+${u.getUid()}+')'">设置为组长</button></td>-->
      </tr>
  </table>

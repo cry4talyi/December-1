@@ -8,6 +8,11 @@ import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,6 +20,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -195,6 +204,7 @@ public class Service {
      * @Date 11:28 2018/12/18
      * @Param
      * @return
+     * 查找一个讨论组的所有博客
      **/
     
     public List<Blog> chatFindBname(String name){
@@ -211,7 +221,7 @@ public class Service {
     }
     /*
     *
-     * @Author 伊文斌 and 胡玉浩
+     * @Author 伊文彬 and 胡玉浩
      * @Description //TODO
      * @Date 10:05 2018/12/20
      * @Param
@@ -274,8 +284,50 @@ public class Service {
         blogRepository.save(blog);
     }
 
+    /*
+     *搜索框进行模糊查询博客，并进行排序，分组操作
+     * @Author 胡玉浩
+     * @Description //TODO
+     * @Date 15:11 2018/12/20
+     * @Param
+     * @return
+     **/
+    public List<Post> findNameLike(String keyword){
+        
+        Specification<Post> spec=new Specification<Post>() {
+            /**
+             *  Predicate :封装了单个的查询条件
+             *  root:查询对象的属性封装
+             *  CriteriaQuery<?> criteriaQuery：我们要执行的查询中的各个部分的信息：select ，from
+             *  CriteriaBuilder criteriaBuilder:查询条件的构造器。定义不同的查询条件
+             */
+            @Override
+            public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> criteriaQuery,
+                                         CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.like(root.get("btittle"),"%"+keyword+"%");
+            }
+        };
+        // 排序--ASC:升序 --DESC:降序
+        Sort sort = new Sort(Sort.Direction.ASC,"bid");
+        //设置页码
+        Pageable pageable = new PageRequest(0, 2, sort);
+        Page<Post> page= postRepository.findAll(spec,pageable);
+        ///每一页显示的信息条数
+        System.out.println("每一页显示的信息条数:" + page.getTotalPages());
+        //一共多少数据
+        System.out.println("一共多少数据:" + page.getTotalElements());
+        List<Post> list=page.getContent();
+        for (Post p:list
+             ) {
+            System.out.println(p);
+        }
+        return list;
+    }
+
+   
 
 
+/*设置管理员*/
     public void setAsManager(String uid) {
         UserInfo userInfo = userInfoRepository.findById(Long.parseLong(uid)).get();
         Role role_admin = roleRepository.findByName("ROLE_ADMIN");

@@ -7,6 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +20,12 @@ import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 /**
  * Created by iandtop on 2018/12/11.
@@ -57,14 +68,22 @@ public class HomeController {
         return "chatTeam";
     }
 
-    /**
-     * @Author 郭兆龙
-     * @Date 2018/12/18
-     * 跳转到博客
-     */
-    @GetMapping("/blog")
-    public String blog(Model model){
+    /*
+    *
+     * @Author 胡玉浩 and  郭兆龙
+     * @Description //TODO
+     * @Date 17:15 2018/12/21
+     * @Param
+     * @return
+     * 跳转到博客界面
+     **/
+    
+    @PostMapping("/blog")
+    public String toBlog(String keyword,Model model){
+        //博客页面
         model.addAttribute("post",service.blog());
+        //搜索框进行模糊查询进行搜索
+        model.addAttribute("prods",service.findNameLike(keyword));
         return "blogsView";
     }
 
@@ -224,7 +243,7 @@ public class HomeController {
         logger.info("姓名为{}",name);
         model.addAttribute("chatname",name);//获取讨论组名字
         model.addAttribute("blogs",service.chatFindBname(name) );
-        model.addAttribute("userName",service.chatTeamFindUser(name));
+        model.addAttribute("userName1",service.chatTeamFindUser(name));
         return "repo";
     }
     
@@ -241,7 +260,7 @@ public class HomeController {
         logger.info("111111姓名为{}",name);
         model.addAttribute("chatname",name);//获取讨论组名字
         model.addAttribute("blogs",service.chatFindBname(name) );
-        model.addAttribute("userName",service.chatFindBname(name));
+        model.addAttribute("userName2",service.chatTeamFindUser(name));
         return "back-repo";
     }
 
@@ -303,11 +322,5 @@ public class HomeController {
         String url = "redirect:"+"/ct/"+name+"/"+bid;
        return url;
     }
-
-
-
-
-
-
 
 }

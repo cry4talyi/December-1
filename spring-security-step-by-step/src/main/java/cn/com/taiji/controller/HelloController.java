@@ -1,13 +1,7 @@
 package cn.com.taiji.controller;
 
-import cn.com.taiji.domain.Blog;
-import cn.com.taiji.domain.ChatTeam;
-import cn.com.taiji.domain.Comment;
-import cn.com.taiji.domain.UserInfo;
-import cn.com.taiji.repository.BlogRepository;
-import cn.com.taiji.repository.ChatTeamRepository;
-import cn.com.taiji.repository.CommentReposity;
-import cn.com.taiji.repository.UserInfoRepository;
+import cn.com.taiji.domain.*;
+import cn.com.taiji.repository.*;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <!--郭兆龙-->
 <head>
     <meta charset="UTF-8">
     <script type="text/javascript" src="/jquery/jquery-1.12.4.min.js"></script>
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
     <title>博客组</title>
 </head>
@@ -26,7 +26,7 @@
                 <th>博客</th>
             </tr>
             <tr th:each="prod:${post}">
-                <td ><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
+                <td><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
 
                 </td>
             </tr>
@@ -46,5 +46,22 @@
         <!--</div>-->
     <!--</form>-->
 <!--</div>-->
+<div class="widget widget_search">
+    <form th:action="@{/blog}" class="navbar-form" method="post">
+        <div class="input-group">
+            <input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字"
+                   maxlength="15" autocomplete="off"/>
+            <span><input type="submit" value="搜索"/></span>
+        </div>
+    </form>
+</div>
+<div>
+    <table>
+        <tr th:each="prod :${prods}">
+            <td><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
+                <!--<td th:text="${prod.}"></td>-->
+        </tr>
+    </table>
+</div>
 </body>
 </html>

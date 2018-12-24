@@ -58,13 +58,10 @@ public class DataInit {
         normalRole.setDescription("普通用户");
         roleRepository.save(normalRole);
 
-
-
-
 //********************************************
 
         /*
-         *
+        *
          * @Author 胡玉浩
          * @Description //TODO
          * @Date 12:45 2018/12/18
@@ -89,6 +86,7 @@ public class DataInit {
         ChatTeam chatTeam1 = new ChatTeam();
         chatTeam1.setCname("diyizu");
         chatTeam1.setBlogs(list1);
+        chatTeam1.setIsexist(1);
 //        System.out.println("111111111111111111111111111111111111111111111");
 //        System.out.println(list1);
 
@@ -102,9 +100,12 @@ public class DataInit {
         ChatTeam chatTeam2 = new ChatTeam();
         chatTeam2.setCname("dierzu");
         chatTeam2.setBlogs(list2);
+        chatTeam2.setIsexist(1);
 
 
-        // ****************************
+
+    // ****************************
+
 
 
         List<Role> roles = new ArrayList<>();
@@ -114,7 +115,7 @@ public class DataInit {
         admin.setPassword(passwordEncoder.encode("1"));
         admin.setUsername("a");
         admin.setRoles(roles);
-        admin.setChatTeams(chatlist);
+        admin.setChatTeams(chatlist );
 
 
         roles = new ArrayList<>();
@@ -149,11 +150,17 @@ public class DataInit {
         user.setComments(commentlist);
 
 
-        Post post = new Post();
-        post.setBtittle("zheshitiezi");
-        post.setBcontext("zheshitiezizhengwen");
-        post.setUserInfo(user);
-        post.setComments(commentlist);
+       Post post = new Post();
+       post.setBtittle("这是博客1");
+       post.setBcontext("这是博客正文");
+       post.setUserInfo(user);
+       post.setComments(commentlist);
+    
+        Post post1 = new Post();
+        post1.setBtittle("这是博客2");
+        post1.setBcontext("这是博客正文2");
+        post1.setUserInfo(user);
+        post1.setComments(commentlist);
 
 
         userInfoRepository.save(admin);
@@ -182,6 +189,10 @@ public class DataInit {
         permission1.setDescription("普通用户的访问路径");
         permission1.setRoles(roles);
         permissionRepository.save(permission1);
+
+
+
+
 
 
         Permission permission2 = new Permission();
