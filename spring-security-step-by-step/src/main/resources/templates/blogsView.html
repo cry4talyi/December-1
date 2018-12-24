@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <!--郭兆龙-->
 <head>
@@ -37,14 +37,21 @@
 </div>
 
 <div class="widget widget_search">
-    <form th:action="" class="navbar-form" method="post">
+    <form th:action="@{/blog}" class="navbar-form" method="post">
         <div class="input-group">
             <input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字"
                    maxlength="15" autocomplete="off"/>
-            <span class="input-group-btn"><input type="submit" value="搜索"/>
-            </span>
+            <span><input type="submit" value="搜索"/></span>
         </div>
     </form>
+</div>
+<div>
+    <table>
+        <tr th:each="prod :${prods}">
+            <td ><a th:href="@{'/ct/blog/'+${prod.bid}}" th:text="${prod.btittle}"></a>
+            <!--<td th:text="${prod.}"></td>-->
+        </tr>
+    </table>
 </div>
 </body>
 </html>

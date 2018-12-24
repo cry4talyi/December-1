@@ -80,6 +80,7 @@ public class DataInit {
         ChatTeam chatTeam1 = new ChatTeam();
         chatTeam1.setCname("diyizu");
         chatTeam1.setBlogs(list1);
+        chatTeam1.setIsexist(1);
 //        System.out.println("111111111111111111111111111111111111111111111");
 //        System.out.println(list1);
 
@@ -93,6 +94,7 @@ public class DataInit {
         ChatTeam chatTeam2 = new ChatTeam();
         chatTeam2.setCname("dierzu");
         chatTeam2.setBlogs(list2);
+        chatTeam2.setIsexist(1);
 
 
 
@@ -141,10 +143,16 @@ public class DataInit {
 
 
        Post post = new Post();
-       post.setBtittle("zheshitiezi");
-       post.setBcontext("zheshitiezizhengwen");
+       post.setBtittle("这是博客1");
+       post.setBcontext("这是博客正文");
        post.setUserInfo(user);
        post.setComments(commentlist);
+    
+        Post post1 = new Post();
+        post1.setBtittle("这是博客2");
+        post1.setBcontext("这是博客正文2");
+        post1.setUserInfo(user);
+        post1.setComments(commentlist);
 
 
         userInfoRepository.save(admin);
@@ -152,7 +160,7 @@ public class DataInit {
 
 
         postRepository.save(post);
-
+        postRepository.save(post1);
 
         chatTeamRepository.save(chatTeam1);
         chatTeamRepository.save(chatTeam2);

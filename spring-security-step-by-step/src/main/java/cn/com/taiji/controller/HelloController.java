@@ -1,13 +1,7 @@
 package cn.com.taiji.controller;
 
-import cn.com.taiji.domain.Blog;
-import cn.com.taiji.domain.ChatTeam;
-import cn.com.taiji.domain.Comment;
-import cn.com.taiji.domain.UserInfo;
-import cn.com.taiji.repository.BlogRepository;
-import cn.com.taiji.repository.ChatTeamRepository;
-import cn.com.taiji.repository.CommentReposity;
-import cn.com.taiji.repository.UserInfoRepository;
+import cn.com.taiji.domain.*;
+import cn.com.taiji.repository.*;
 import cn.com.taiji.service.impl.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +63,25 @@ public class HelloController {
     
        return null;
     }
-
+    
+//    /*
+//     *搜索框进行模糊查询
+//     * @Author 胡玉浩
+//     * @Description //TODO
+//     * @Date 14:57 2018/12/20
+//     * @Param
+//     * @return
+//     **/
+//    @Autowired
+//    PostRepository postRepository;
+//    @RequestMapping("/seek")
+//    public List<Post> seekKeyword(String keyword,Model model){
+//
+////        model.addAttribute("prods",service.findNameLike(keyword));
+////        System.out.println("9999999999999999999999999999"+model);
+////        return postRepository.findByBtittleLike("%"+keyword+"%");
+//        return postRepository.findAll();
+//    }
 
 
 
