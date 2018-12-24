@@ -3,12 +3,15 @@ package cn.com.taiji.init;
 import cn.com.taiji.domain.*;
 import cn.com.taiji.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by iandtop on 2018/12/11.
@@ -40,6 +43,9 @@ public class DataInit {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @PostConstruct
     public void dataInit() {
         Role adminRole = new Role();
@@ -58,7 +64,7 @@ public class DataInit {
 //********************************************
 
         /*
-        *
+         *
          * @Author 胡玉浩
          * @Description //TODO
          * @Date 12:45 2018/12/18
@@ -98,9 +104,7 @@ public class DataInit {
         chatTeam2.setBlogs(list2);
 
 
-
-    // ****************************
-
+        // ****************************
 
 
         List<Role> roles = new ArrayList<>();
@@ -110,7 +114,7 @@ public class DataInit {
         admin.setPassword(passwordEncoder.encode("1"));
         admin.setUsername("a");
         admin.setRoles(roles);
-        admin.setChatTeams(chatlist );
+        admin.setChatTeams(chatlist);
 
 
         roles = new ArrayList<>();
@@ -145,11 +149,11 @@ public class DataInit {
         user.setComments(commentlist);
 
 
-       Post post = new Post();
-       post.setBtittle("zheshitiezi");
-       post.setBcontext("zheshitiezizhengwen");
-       post.setUserInfo(user);
-       post.setComments(commentlist);
+        Post post = new Post();
+        post.setBtittle("zheshitiezi");
+        post.setBcontext("zheshitiezizhengwen");
+        post.setUserInfo(user);
+        post.setComments(commentlist);
 
 
         userInfoRepository.save(admin);
@@ -198,5 +202,32 @@ public class DataInit {
         roles3.add(adminRole);
         permission3.setRoles(roles3);
         permissionRepository.save(permission3);
+
+
+        try {
+            System.out.println(redisTemplate);
+            redisCache(userInfoRepository);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    * @Author liqingyao
+    * @date 20181221
+    * @description 从数据库中去处用户名和密码，放到redis缓存中
+    * */
+    public void redisCache(UserInfoRepository userInfoRepository) throws Exception {
+
+        List<UserInfo> userInfos = userInfoRepository.findAll();
+        Map newMap = new HashMap();
+        for (UserInfo userinfo : userInfos) {
+
+            newMap.put(userinfo.getUsername(), userinfo.getPassword());
+            //logger.info(newMap.toString());
+            //logger.info(redisTemplate.toString());
+            redisTemplate.opsForHash().putAll("UserInfo", newMap);
+//            redisTemplate.opsForValue().set("userinfo", 123);
+        }
     }
 }

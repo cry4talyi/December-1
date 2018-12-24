@@ -4,11 +4,10 @@
     <title>Spring Security入门</title>
 </head>
 <body>
-<h1>欢迎使用Spring Security!
+<h1>
     当前登录账号：<label th:text="${name}"></label></h1>
-<p>点击 <a th:href="@{/hello}">这里</a> 打个招呼吧</p>
-<p> <a th:href="@{/helloAdmin(name=${name})}">admin page</a></p>
-<p><a th:href="@{/helloUser}">user page</a></p>
+<p><a th:href="@{/helloAdmin(name=${name})}">管理员登录</a></p>
+<p><a th:href="@{/helloUser}">用户登录</a></p>
 <a th:href="@{/hellouser(name=${name})}">112</a>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="退出登录"/>
