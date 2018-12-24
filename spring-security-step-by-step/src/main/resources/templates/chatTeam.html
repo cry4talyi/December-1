@@ -27,6 +27,7 @@
 			</div>
 			<div class="widget" th:each="prod:${chat}">
 				<hr />
+                <!--<img src="/img/dierzu.png" />-->
 				<div class="h4">
 					<a class="h4" th:href="@{'/ct/'+${prod.cname}}" th:text="${prod.cname}"></a>
 				</div>

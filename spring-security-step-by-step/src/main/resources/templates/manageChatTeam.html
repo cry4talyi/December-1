@@ -31,6 +31,7 @@
                 <li><a href="/index">首页</a></li>
                 <li class="active"><a th:href="@{/manage/blog}">博客</a></li>
                 <li><a href="https://www.baidu.com/">讨论组</a></li>
+                <li class="active"><a th:href="@{/manage/showUser}">显示所有成员</a></li>
             </ul>
         </div>
     </div>
@@ -54,8 +55,8 @@
 
                     <ul class="nav navbar-right">
                         <button class="btn btn-default" th:onclick="'dele(\''+${prod.cid}+'\')'">
-                            删除讨论组
-                        </button>
+                        删除讨论组
+                    </button>
                     </ul>
                 </div>
             </div>

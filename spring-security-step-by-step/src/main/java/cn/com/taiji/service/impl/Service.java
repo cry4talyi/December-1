@@ -6,6 +6,7 @@ import cn.com.taiji.domain.UserInfo;
 import cn.com.taiji.domain.*;
 import cn.com.taiji.domain.Blog;
 import cn.com.taiji.repository.*;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,7 +87,7 @@ public class Service {
     /**
      * @Author 郭兆龙
      * @Date 2018/12/18
-     * 跳转到博客列表
+     * 查询存在的数据跳转到博客列表
      */
     public List<Post> blog(){
         List<Post>list1 = new ArrayList<Post>();
@@ -117,13 +118,13 @@ public class Service {
     /**
      * @Author 郭兆龙
      * @Date 2018/12/19
-     * 用于跳转进博客的详细页面
+     * 查询指定id的博客内容用于跳转进博客的详细页面
      */
     public Post toPost(Long bid){
         return postRepository.findByBid(bid);
     }
     /**
-     * @Author 郭兆龙
+     * @Author 伊文彬&&郭兆龙
      * @Date 2018/12/20
      * 用于管理员删除讨论组
      */
@@ -141,7 +142,7 @@ public class Service {
     }
 
     /**
-     * @Author 郭兆龙
+     * @Author 伊文彬&&郭兆龙
      * @Date 2018/12/20
      * 用于管理员删除博客
      */
@@ -171,6 +172,17 @@ public class Service {
         postRepository.saveAndFlush(post);
     }
 
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员新查看所有用户信息
+     * 目前是存于数据库中，以后改成redis
+     */
+    public List<UserInfo> userView(){
+        List<UserInfo>list=new ArrayList<UserInfo>();
+        list.addAll(this.userInfoRepository.findAll());
+        return list;
+    }
 
 
 

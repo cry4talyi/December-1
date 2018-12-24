@@ -109,7 +109,7 @@ public class HomeController {
         return "manageChatTeam";
     }
     /**
-     * @Author 郭兆龙
+     * @Author 伊文彬&&郭兆龙
      * @Date 2018/12/20
      * 用于管理员删除讨论组
      */
@@ -125,7 +125,7 @@ public class HomeController {
     }
 
     /**
-     * @Author 郭兆龙
+     * @Author 伊文彬&&郭兆龙
      * @Date 2018/12/20
      * 用于管理员删除博客
      */
@@ -161,7 +161,7 @@ public class HomeController {
     }
 
     /**
-     * @Author 郭兆龙
+     * @Author 伊文彬&&郭兆龙
      * @Date 2018/12/20
      * 用于管理员新增博客功能
      */
@@ -182,6 +182,19 @@ public class HomeController {
         service.savePost(post,user.getUsername());
         return "redirect:/manage/blog";
     }
+
+    /**
+     * @Author 郭兆龙
+     * @Date 2018/12/20
+     * 用于管理员新查看所有用户信息
+     * 目前是存于数据库中，以后改成redis
+     */
+    @RequestMapping("/manage/showUser")
+    public String showUserInfo(Model model){
+        model.addAttribute("users",service.userView());
+        return "userInfo"
+;    }
+
 
 
 
